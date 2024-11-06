@@ -1,4 +1,4 @@
-<p><h1 align="center">270.校级活动管理系统</h1></p>
+<p><h1 align="center">校级活动管理系统</h1></p>
 
 
 
