@@ -3,56 +3,9 @@
     <!-- 列表页 -->
     <div v-if="showFlag">
       <el-form :inline="true" :model="searchForm" class="form-content">
-        <el-row  :gutter="20" class="slt" :style="{justifyContent:contents.searchBoxPosition=='1'?'flex-start':contents.searchBoxPosition=='2'?'center':'flex-end'}">
-                <el-form-item :label="contents.inputTitle == 1 ? '用户名' : ''">
-                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 1" prefix-icon="el-icon-search" v-model="searchForm.username" placeholder="用户名" clearable></el-input>
-                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 2" suffix-icon="el-icon-search" v-model="searchForm.username" placeholder="用户名" clearable></el-input>
-                  <el-input v-if="contents.inputIcon == 0" v-model="searchForm.username" placeholder="用户名" clearable></el-input>
-                </el-form-item>
-          <el-form-item>
-            <el-button v-if="contents.searchBtnIcon == 1 && contents.searchBtnIconPosition == 1" icon="el-icon-search" type="success" @click="search()">{{ contents.searchBtnFont == 1?'查询':'' }}</el-button>
-            <el-button v-if="contents.searchBtnIcon == 1 && contents.searchBtnIconPosition == 2" type="success" @click="search()">{{ contents.searchBtnFont == 1?'查询':'' }}<i class="el-icon-search el-icon--right"/></el-button>
-            <el-button v-if="contents.searchBtnIcon == 0" type="success" @click="search()">{{ contents.searchBtnFont == 1?'查询':'' }}</el-button>
-          </el-form-item>
-        </el-row>
 
         <el-row class="ad" :style="{justifyContent:contents.btnAdAllBoxPosition=='1'?'flex-start':contents.btnAdAllBoxPosition=='2'?'center':'flex-end'}">
           <el-form-item>
-            <el-button
-              v-if="isAuth('messages','新增') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 1"
-              type="success"
-              icon="el-icon-plus"
-              @click="addOrUpdateHandler()"
-            >{{ contents.btnAdAllFont == 1?'新增':'' }}</el-button>
-            <el-button
-              v-if="isAuth('messages','新增') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 2"
-              type="success"
-              @click="addOrUpdateHandler()"
-            >{{ contents.btnAdAllFont == 1?'新增':'' }}<i class="el-icon-plus el-icon--right" /></el-button>
-            <el-button
-              v-if="isAuth('messages','新增') && contents.btnAdAllIcon == 0"
-              type="success"
-              @click="addOrUpdateHandler()"
-            >{{ contents.btnAdAllFont == 1?'新增':'' }}</el-button>
-            <el-button
-              v-if="isAuth('messages','删除') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 1 && contents.tableSelection"
-              :disabled="dataListSelections.length <= 0"
-              type="danger"
-              icon="el-icon-delete"
-              @click="deleteHandler()"
-            >{{ contents.btnAdAllFont == 1?'删除':'' }}</el-button>
-            <el-button
-              v-if="isAuth('messages','删除') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 2 && contents.tableSelection"
-              :disabled="dataListSelections.length <= 0"
-              type="danger"
-              @click="deleteHandler()"
-            >{{ contents.btnAdAllFont == 1?'删除':'' }}<i class="el-icon-delete el-icon--right" /></el-button>
-            <el-button
-              v-if="isAuth('messages','删除') && contents.btnAdAllIcon == 0 && contents.tableSelection"
-              :disabled="dataListSelections.length <= 0"
-              type="danger"
-              @click="deleteHandler()"
-            >{{ contents.btnAdAllFont == 1?'删除':'' }}</el-button>
 
 
 
@@ -68,7 +21,7 @@
             :fit="contents.tableFit"
             :stripe="contents.tableStripe"
             :style="{width: '100%',fontSize:contents.tableContentFontSize,color:contents.tableContentFontColor}"
-            v-if="isAuth('messages','查看')"
+            v-if="isAuth('config','查看')"
             :data="dataList"
             v-loading="dataListLoading"
             @selection-change="selectionChangeHandler">
@@ -79,72 +32,39 @@
                 width="50">
             </el-table-column>
             <el-table-column label="索引" :align="contents.tableAlign"  v-if="contents.tableIndex" type="index" width="50" />
-                <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="username"
+                <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign"
+                    prop="name"
                    :header-align="contents.tableAlign"
-		    label="用户名">
+		    label="名称">
 		     <template slot-scope="scope">
-                       {{scope.row.username}}
+                       {{scope.row.name}}
                      </template>
                 </el-table-column>
-                <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="content"
-                   :header-align="contents.tableAlign"
-		    label="留言内容">
-		     <template slot-scope="scope">
-                       {{scope.row.content}}
-                     </template>
-                </el-table-column>
-                  <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign"  prop="cpicture"
+                  <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign"  prop="value"
                    :header-align="contents.tableAlign"
                     width="200"
-                    label="留言图片">
+                    label="值">
                     <template slot-scope="scope">
-                      <div v-if="scope.row.cpicture">
-                        <img :src="$base.url+scope.row.cpicture.split(',')[0]" width="100" height="100">
+                      <div v-if="scope.row.value">
+                        <img :src="$base.url+scope.row.value.split(',')[0]" width="100" height="100">
                       </div>
                       <div v-else>无图片</div>
                     </template>
                   </el-table-column>
-                <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="reply"
-                   :header-align="contents.tableAlign"
-		    label="回复内容">
-		     <template slot-scope="scope">
-                       {{scope.row.reply}}
-                     </template>
-                </el-table-column>
-                  <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign"  prop="rpicture"
-                   :header-align="contents.tableAlign"
-                    width="200"
-                    label="回复图片">
-                    <template slot-scope="scope">
-                      <div v-if="scope.row.rpicture">
-                        <img :src="$base.url+scope.row.rpicture.split(',')[0]" width="100" height="100">
-                      </div>
-                      <div v-else>无图片</div>
-                    </template>
-                  </el-table-column>
-            <el-table-column width="300" :align="contents.tableAlign" 
+            <el-table-column width="300" :align="contents.tableAlign"
                :header-align="contents.tableAlign"
                 label="操作">
                 <template slot-scope="scope">
-                <el-button v-if="isAuth('messages','查看') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="success" icon="el-icon-tickets" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
-                <el-button v-if="isAuth('messages','查看') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}<i class="el-icon-tickets el-icon--right" /></el-button>
-                <el-button v-if="isAuth('messages','查看') && contents.tableBtnIcon == 0" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
-                <el-button v-if=" isAuth('messages','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="primary" icon="el-icon-edit" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
-                <el-button v-if=" isAuth('messages','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}<i class="el-icon-edit el-icon--right" /></el-button>
-                <el-button v-if=" isAuth('messages','修改') && contents.tableBtnIcon == 0" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
+                <el-button v-if="isAuth('config','查看') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="success" icon="el-icon-tickets" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
+                <el-button v-if="isAuth('config','查看') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}<i class="el-icon-tickets el-icon--right" /></el-button>
+                <el-button v-if="isAuth('config','查看') && contents.tableBtnIcon == 0" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
+                <el-button v-if=" isAuth('config','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="primary" icon="el-icon-edit" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
+                <el-button v-if=" isAuth('config','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}<i class="el-icon-edit el-icon--right" /></el-button>
+                <el-button v-if=" isAuth('config','修改') && contents.tableBtnIcon == 0" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
 
 
 
 
-                <el-button v-if="isAuth('messages','回复') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="primary" icon="el-icon-edit" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'回复':'' }}</el-button>
-                <el-button v-if="isAuth('messages','回复') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'回复':'' }}<i class="el-icon-edit el-icon--right" /></el-button>
-                <el-button v-if="isAuth('messages','回复') && contents.tableBtnIcon == 0" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'回复':'' }}</el-button>
-                <el-button v-if="isAuth('messages','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
-                <el-button v-if="isAuth('messages','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}<i class="el-icon-delete el-icon--right" /></el-button>
-                <el-button v-if="isAuth('messages','删除') && contents.tableBtnIcon == 0" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -166,13 +86,12 @@
     </div>
     <!-- 添加/修改页面  将父组件的search方法传递给子组件-->
     <add-or-update v-if="addOrUpdateFlag" :parent="this" ref="addOrUpdate"></add-or-update>
-
-
-
-
-
   </div>
 </template>
+
+
+
+
 <script>
 import axios from 'axios'
 import AddOrUpdate from "./add-or-update";
@@ -409,11 +328,9 @@ export default {
         limit: this.pageSize,
         sort: 'id',
       }
-          if(this.searchForm.username!='' && this.searchForm.username!=undefined){
-            params['username'] = '%' + this.searchForm.username + '%'
-          }
+          params['name'] = '%picture%'
       this.$http({
-        url: "messages/page",
+        url: "config/page",
         method: "get",
         params: params
       }).then(({ data }) => {
@@ -472,7 +389,7 @@ export default {
         type: "warning"
       }).then(() => {
         this.$http({
-          url: "messages/delete",
+          url: "config/delete",
           method: "post",
           data: ids
         }).then(({ data }) => {
@@ -516,11 +433,11 @@ export default {
       }
     }
   }
-  
+
 
   .el-button+.el-button {
     margin:0;
-  } 
+  }
 
   .tables {
 	& /deep/ .el-button--success {
@@ -533,7 +450,7 @@ export default {
 		border-radius: 4px;
 		background-color: #fff;
 	}
-	
+
 	& /deep/ .el-button--primary {
 		height: 40px;
 		color: rgba(98, 190, 84, 1);
@@ -544,7 +461,7 @@ export default {
 		border-radius: 4px;
 		background-color: #fff;
 	}
-	
+
 	& /deep/ .el-button--danger {
 		height: 40px;
 		color: rgba(98, 190, 84, 1);
@@ -566,7 +483,7 @@ export default {
 	.table-content {
 		background: transparent;
 	}
-	
+
 	.tables /deep/ .el-table__body tr {
 				background-color: #f5f5f5 !important;
 				color: #606266 !important;
@@ -578,10 +495,10 @@ export default {
 		background-color: #F5F7FA !important;
 		color: #606266 !important;
 	}
-	
+
 	 .tables /deep/ .el-table__body tr:hover>td {
 	   	   background-color: #f5f5f5 !important;
 	   	   	   color: #333 !important;
 	   	 }
-	 
+
 </style>

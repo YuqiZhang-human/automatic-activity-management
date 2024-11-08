@@ -10,88 +10,35 @@
     >
       <el-row >
       <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="用户名" prop="username">
-          <el-input v-model="ruleForm.username" 
-              placeholder="用户名" clearable readonly></el-input>
+        <el-form-item class="input" v-if="type!='info'"  label="名称" prop="name">
+          <el-input v-model="ruleForm.name" 
+              placeholder="名称" clearable readonly></el-input>
         </el-form-item>
         <div v-else>
-          <el-form-item class="input" label="用户名" prop="username">
-              <el-input v-model="ruleForm.username" 
-                placeholder="用户名" readonly></el-input>
+          <el-form-item class="input" label="名称" prop="name">
+              <el-input v-model="ruleForm.name" 
+                placeholder="名称" readonly></el-input>
           </el-form-item>
         </div>
       </el-col>
       <el-col :span="24">  
-        <el-form-item class="upload" v-if="type!='info' && !ro.cpicture" label="留言图片" prop="cpicture">
+        <el-form-item class="upload" v-if="type!='info' && !ro.value" label="值" prop="value">
           <file-upload
-          tip="点击上传留言图片"
+          tip="点击上传值"
           action="file/upload"
           :limit="3"
           :multiple="true"
-          :fileUrls="ruleForm.cpicture?ruleForm.cpicture:''"
-          @change="cpictureUploadChange"
+          :fileUrls="ruleForm.value?ruleForm.value:''"
+          @change="valueUploadChange"
           ></file-upload>
         </el-form-item>
         <div v-else>
-          <el-form-item v-if="ruleForm.cpicture" label="留言图片" prop="cpicture">
-            <img style="margin-right:20px;" v-bind:key="index" v-for="(item,index) in ruleForm.cpicture.split(',')" :src="$base.url+item" width="100" height="100">
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="24">  
-        <el-form-item class="upload" v-if="type!='info' && !ro.rpicture" label="回复图片" prop="rpicture">
-          <file-upload
-          tip="点击上传回复图片"
-          action="file/upload"
-          :limit="3"
-          :multiple="true"
-          :fileUrls="ruleForm.rpicture?ruleForm.rpicture:''"
-          @change="rpictureUploadChange"
-          ></file-upload>
-        </el-form-item>
-        <div v-else>
-          <el-form-item v-if="ruleForm.rpicture" label="回复图片" prop="rpicture">
-            <img style="margin-right:20px;" v-bind:key="index" v-for="(item,index) in ruleForm.rpicture.split(',')" :src="$base.url+item" width="100" height="100">
+          <el-form-item v-if="ruleForm.value" label="值" prop="value">
+            <img style="margin-right:20px;" v-bind:key="index" v-for="(item,index) in ruleForm.value.split(',')" :src="$base.url+item" width="100" height="100">
           </el-form-item>
         </div>
       </el-col>
       </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item class="textarea" v-if="type!='info'" label="留言内容" prop="content">
-                <el-input
-                  style="min-width: 200px; max-width: 600px;"
-                  type="textarea"
-                  :rows="8"
-                  placeholder="留言内容"
-                  v-model="ruleForm.content" readonly>
-                </el-input>
-              </el-form-item>
-              <div v-else>
-                <el-form-item v-if="ruleForm.content" label="留言内容" prop="content">
-                    <span>{{ruleForm.content}}</span>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item class="textarea" v-if="type!='info'" label="回复内容" prop="reply">
-                <el-input
-                  style="min-width: 200px; max-width: 600px;"
-                  type="textarea"
-                  :rows="8"
-                  placeholder="回复内容"
-                  v-model="ruleForm.reply" >
-                </el-input>
-              </el-form-item>
-              <div v-else>
-                <el-form-item v-if="ruleForm.reply" label="回复内容" prop="reply">
-                    <span>{{ruleForm.reply}}</span>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
       <el-form-item class="btn">
         <el-button  v-if="type!='info'" type="primary" class="btn-success" @click="onSubmit">提交</el-button>
         <el-button v-if="type!='info'" class="btn-close" @click="back()">取消</el-button>
@@ -176,35 +123,18 @@ export default {
       id: '',
       type: '',
       ro:{
-	userid : false,
-	username : false,
-	content : false,
-	cpicture : false,
-	reply : false,
-	rpicture : false,
+	name : false,
+	value : false,
       },
       ruleForm: {
-        userid: '',
-        username: '',
-        content: '',
-        cpicture: '',
-        reply: '',
-        rpicture: '',
+        name: '',
+        value: '',
       },
       rules: {
-          userid: [
-                { required: true, message: '留言人id不能为空', trigger: 'blur' },
+          name: [
+                { required: true, message: '名称不能为空', trigger: 'blur' },
           ],
-          username: [
-          ],
-          content: [
-                { required: true, message: '留言内容不能为空', trigger: 'blur' },
-          ],
-          cpicture: [
-          ],
-          reply: [
-          ],
-          rpicture: [
+          value: [
           ],
       }
     };
@@ -238,34 +168,14 @@ export default {
       }else if(this.type=='cross'){
         var obj = this.$storage.getObj('crossObj');
         for (var o in obj){
-          if(o=='userid'){
-            this.ruleForm.userid = obj[o];
-	    this.ro.userid = true;
+          if(o=='name'){
+            this.ruleForm.name = obj[o];
+	    this.ro.name = true;
             continue;
           }
-          if(o=='username'){
-            this.ruleForm.username = obj[o];
-	    this.ro.username = true;
-            continue;
-          }
-          if(o=='content'){
-            this.ruleForm.content = obj[o];
-	    this.ro.content = true;
-            continue;
-          }
-          if(o=='cpicture'){
-            this.ruleForm.cpicture = obj[o];
-	    this.ro.cpicture = true;
-            continue;
-          }
-          if(o=='reply'){
-            this.ruleForm.reply = obj[o];
-	    this.ro.reply = true;
-            continue;
-          }
-          if(o=='rpicture'){
-            this.ruleForm.rpicture = obj[o];
-	    this.ro.rpicture = true;
+          if(o=='value'){
+            this.ruleForm.value = obj[o];
+	    this.ro.value = true;
             continue;
           }
         }
@@ -274,7 +184,7 @@ export default {
     // 多级联动参数
     info(id) {
       this.$http({
-        url: `messages/info/${id}`,
+        url: `config/info/${id}`,
         method: "get"
       }).then(({ data }) => {
         if (data && data.code === 0) {
@@ -294,19 +204,8 @@ export default {
 
 
 
-
-
-
-
-	if(this.ruleForm.cpicture!=null) {
-		this.ruleForm.cpicture = this.ruleForm.cpicture.replace(new RegExp(this.$base.url,"g"),"");
-	}
-
-
-
-
-	if(this.ruleForm.rpicture!=null) {
-		this.ruleForm.rpicture = this.ruleForm.rpicture.replace(new RegExp(this.$base.url,"g"),"");
+	if(this.ruleForm.value!=null) {
+		this.ruleForm.value = this.ruleForm.value.replace(new RegExp(this.$base.url,"g"),"");
 	}
 
 var objcross = this.$storage.getObj('crossObj');
@@ -352,7 +251,7 @@ var objcross = this.$storage.getObj('crossObj');
 				crossrefid:this.ruleForm.crossrefid,
 			} 
 			this.$http({ 
-				url: "messages/page", 
+				url: "config/page", 
 				method: "get", 
 				params: params 
 			}).then(({ 
@@ -364,7 +263,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       return false;
 				       } else {
 					 this.$http({
-					   url: `messages/${!this.ruleForm.id ? "save" : "update"}`,
+					   url: `config/${!this.ruleForm.id ? "save" : "update"}`,
 					   method: "post",
 					   data: this.ruleForm
 					 }).then(({ data }) => {
@@ -376,7 +275,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       onClose: () => {
 						 this.parent.showFlag = true;
 						 this.parent.addOrUpdateFlag = false;
-						 this.parent.messagesCrossAddOrUpdateFlag = false;
+						 this.parent.configCrossAddOrUpdateFlag = false;
 						 this.parent.search();
 						 this.parent.contentStyleChange();
 					       }
@@ -392,7 +291,7 @@ var objcross = this.$storage.getObj('crossObj');
 			});
 		 } else {
 			 this.$http({
-			   url: `messages/${!this.ruleForm.id ? "save" : "update"}`,
+			   url: `config/${!this.ruleForm.id ? "save" : "update"}`,
 			   method: "post",
 			   data: this.ruleForm
 			 }).then(({ data }) => {
@@ -404,7 +303,7 @@ var objcross = this.$storage.getObj('crossObj');
 			       onClose: () => {
 				 this.parent.showFlag = true;
 				 this.parent.addOrUpdateFlag = false;
-				 this.parent.messagesCrossAddOrUpdateFlag = false;
+				 this.parent.configCrossAddOrUpdateFlag = false;
 				 this.parent.search();
 				 this.parent.contentStyleChange();
 			       }
@@ -425,15 +324,11 @@ var objcross = this.$storage.getObj('crossObj');
     back() {
       this.parent.showFlag = true;
       this.parent.addOrUpdateFlag = false;
-      this.parent.messagesCrossAddOrUpdateFlag = false;
+      this.parent.configCrossAddOrUpdateFlag = false;
       this.parent.contentStyleChange();
     },
-    cpictureUploadChange(fileUrls) {
-	this.ruleForm.cpicture = fileUrls;
-	this.addEditUploadStyleChange()
-    },
-    rpictureUploadChange(fileUrls) {
-	this.ruleForm.rpicture = fileUrls;
+    valueUploadChange(fileUrls) {
+	this.ruleForm.value = fileUrls;
 	this.addEditUploadStyleChange()
     },
 	addEditStyleChange() {
