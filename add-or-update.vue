@@ -11,36 +11,94 @@
       <el-row >
       <el-col :span="12">
         <el-form-item class="input" v-if="type!='info'"  label="用户名" prop="username">
-          <el-input v-model="ruleForm.username"
-              placeholder="用户名" clearable  :readonly="ro.username"></el-input>
+          <el-input v-model="ruleForm.username" 
+              placeholder="用户名" clearable readonly></el-input>
         </el-form-item>
         <div v-else>
           <el-form-item class="input" label="用户名" prop="username">
-              <el-input v-model="ruleForm.username"
+              <el-input v-model="ruleForm.username" 
                 placeholder="用户名" readonly></el-input>
           </el-form-item>
         </div>
       </el-col>
-      <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="密码" prop="password">
-          <el-input v-model="ruleForm.password"
-              placeholder="密码" clearable  :readonly="ro.password"></el-input>
+      <el-col :span="24">  
+        <el-form-item class="upload" v-if="type!='info' && !ro.cpicture" label="留言图片" prop="cpicture">
+          <file-upload
+          tip="点击上传留言图片"
+          action="file/upload"
+          :limit="3"
+          :multiple="true"
+          :fileUrls="ruleForm.cpicture?ruleForm.cpicture:''"
+          @change="cpictureUploadChange"
+          ></file-upload>
         </el-form-item>
         <div v-else>
-          <el-form-item class="input" label="密码" prop="password">
-              <el-input v-model="ruleForm.password"
-                placeholder="密码" readonly></el-input>
+          <el-form-item v-if="ruleForm.cpicture" label="留言图片" prop="cpicture">
+            <img style="margin-right:20px;" v-bind:key="index" v-for="(item,index) in ruleForm.cpicture.split(',')" :src="$base.url+item" width="100" height="100">
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="24">  
+        <el-form-item class="upload" v-if="type!='info' && !ro.rpicture" label="回复图片" prop="rpicture">
+          <file-upload
+          tip="点击上传回复图片"
+          action="file/upload"
+          :limit="3"
+          :multiple="true"
+          :fileUrls="ruleForm.rpicture?ruleForm.rpicture:''"
+          @change="rpictureUploadChange"
+          ></file-upload>
+        </el-form-item>
+        <div v-else>
+          <el-form-item v-if="ruleForm.rpicture" label="回复图片" prop="rpicture">
+            <img style="margin-right:20px;" v-bind:key="index" v-for="(item,index) in ruleForm.rpicture.split(',')" :src="$base.url+item" width="100" height="100">
           </el-form-item>
         </div>
       </el-col>
       </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item class="textarea" v-if="type!='info'" label="留言内容" prop="content">
+                <el-input
+                  style="min-width: 200px; max-width: 600px;"
+                  type="textarea"
+                  :rows="8"
+                  placeholder="留言内容"
+                  v-model="ruleForm.content" readonly>
+                </el-input>
+              </el-form-item>
+              <div v-else>
+                <el-form-item v-if="ruleForm.content" label="留言内容" prop="content">
+                    <span>{{ruleForm.content}}</span>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item class="textarea" v-if="type!='info'" label="回复内容" prop="reply">
+                <el-input
+                  style="min-width: 200px; max-width: 600px;"
+                  type="textarea"
+                  :rows="8"
+                  placeholder="回复内容"
+                  v-model="ruleForm.reply" >
+                </el-input>
+              </el-form-item>
+              <div v-else>
+                <el-form-item v-if="ruleForm.reply" label="回复内容" prop="reply">
+                    <span>{{ruleForm.reply}}</span>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
       <el-form-item class="btn">
         <el-button  v-if="type!='info'" type="primary" class="btn-success" @click="onSubmit">提交</el-button>
         <el-button v-if="type!='info'" class="btn-close" @click="back()">取消</el-button>
         <el-button v-if="type=='info'" class="btn-close" @click="back()">返回</el-button>
       </el-form-item>
     </el-form>
-
+    
 
   </div>
 </template>
@@ -114,44 +172,39 @@ export default {
       }
     };
     return {
-	  addEditForm: {"btnSaveFontColor":"#fff","selectFontSize":"14px",
-      "btnCancelBorderColor":"rgba(98, 190, 84, 1)","inputBorderRadius":"4px","inputFontSize":"14px",
-      "textareaBgColor":"#fff","btnSaveFontSize":"14px","textareaBorderRadius":"4px","uploadBgColor":"#fff",
-      "textareaBorderStyle":"solid","btnCancelWidth":"88px","textareaHeight":"120px","dateBgColor":"#fff",
-      "btnSaveBorderRadius":"4px","uploadLableFontSize":"14px","textareaBorderWidth":"5px 2px",
-      "inputLableColor":"#606266","addEditBoxColor":"#fff","dateIconFontSize":"14px",
-      "btnSaveBgColor":"rgba(98, 190, 84, 1)","uploadIconFontColor":"rgba(98, 190, 84, 1)",
-      "textareaBorderColor":"rgba(98, 190, 84, 1)","btnCancelBgColor":"rgba(255, 255, 255, 1)",
-      "btnSaveBorderStyle":"solid","dateBorderWidth":"5px 2px","dateLableFontSize":"14px","dateBorderRadius":"4px",
-      "btnCancelBorderStyle":"solid","selectLableFontSize":"14px","selectBorderStyle":"solid",
-      "selectIconFontColor":"rgba(98, 190, 84, 1)","btnCancelHeight":"44px","inputHeight":"40px",
-      "btnCancelFontColor":"rgba(98, 190, 84, 1)","dateBorderColor":"rgba(98, 190, 84, 1)",
-      "dateIconFontColor":"rgba(98, 190, 84, 1)","uploadBorderStyle":"solid","dateBorderStyle":"solid",
-      "dateLableColor":"#606266","dateFontSize":"14px","inputBorderWidth":"5px 2px","uploadIconFontSize":"28px",
-      "selectHeight":"40px","inputFontColor":"#606266","uploadHeight":"148px","textareaLableColor":"#606266",
-      "textareaLableFontSize":"14px","btnCancelFontSize":"14px","inputBorderStyle":"solid","btnCancelBorderRadius":"4px",
-      "inputBgColor":"#fff","inputLableFontSize":"14px","uploadLableColor":"#606266","uploadBorderRadius":"4px",
-      "btnSaveHeight":"44px","selectBgColor":"#fff","btnSaveWidth":"88px","selectIconFontSize":"14px","dateHeight":"40px",
-      "selectBorderColor":"rgba(98, 190, 84, 1)","inputBorderColor":"rgba(98, 190, 84, 1)","uploadBorderColor":"rgba(98, 190, 84, 1)","textareaFontColor":"#606266","selectBorderWidth":"5px 2px","dateFontColor":"#606266","btnCancelBorderWidth":"1px","uploadBorderWidth":"5px 2px","textareaFontSize":"14px","selectBorderRadius":"4px","selectFontColor":"#606266","btnSaveBorderColor":"rgba(98, 190, 84, 1)","btnSaveBorderWidth":"1px"},
+	  addEditForm: {"btnSaveFontColor":"#fff","selectFontSize":"14px","btnCancelBorderColor":"rgba(98, 190, 84, 1)","inputBorderRadius":"4px","inputFontSize":"14px","textareaBgColor":"#fff","btnSaveFontSize":"14px","textareaBorderRadius":"4px","uploadBgColor":"#fff","textareaBorderStyle":"solid","btnCancelWidth":"88px","textareaHeight":"120px","dateBgColor":"#fff","btnSaveBorderRadius":"4px","uploadLableFontSize":"14px","textareaBorderWidth":"5px 2px","inputLableColor":"#606266","addEditBoxColor":"#fff","dateIconFontSize":"14px","btnSaveBgColor":"rgba(98, 190, 84, 1)","uploadIconFontColor":"rgba(98, 190, 84, 1)","textareaBorderColor":"rgba(98, 190, 84, 1)","btnCancelBgColor":"rgba(255, 255, 255, 1)","btnSaveBorderStyle":"solid","dateBorderWidth":"5px 2px","dateLableFontSize":"14px","dateBorderRadius":"4px","btnCancelBorderStyle":"solid","selectLableFontSize":"14px","selectBorderStyle":"solid","selectIconFontColor":"rgba(98, 190, 84, 1)","btnCancelHeight":"44px","inputHeight":"40px","btnCancelFontColor":"rgba(98, 190, 84, 1)","dateBorderColor":"rgba(98, 190, 84, 1)","dateIconFontColor":"rgba(98, 190, 84, 1)","uploadBorderStyle":"solid","dateBorderStyle":"solid","dateLableColor":"#606266","dateFontSize":"14px","inputBorderWidth":"5px 2px","uploadIconFontSize":"28px","selectHeight":"40px","inputFontColor":"#606266","uploadHeight":"148px","textareaLableColor":"#606266","textareaLableFontSize":"14px","btnCancelFontSize":"14px","inputBorderStyle":"solid","btnCancelBorderRadius":"4px","inputBgColor":"#fff","inputLableFontSize":"14px","uploadLableColor":"#606266","uploadBorderRadius":"4px","btnSaveHeight":"44px","selectBgColor":"#fff","btnSaveWidth":"88px","selectIconFontSize":"14px","dateHeight":"40px","selectBorderColor":"rgba(98, 190, 84, 1)","inputBorderColor":"rgba(98, 190, 84, 1)","uploadBorderColor":"rgba(98, 190, 84, 1)","textareaFontColor":"#606266","selectBorderWidth":"5px 2px","dateFontColor":"#606266","btnCancelBorderWidth":"1px","uploadBorderWidth":"5px 2px","textareaFontSize":"14px","selectBorderRadius":"4px","selectFontColor":"#606266","btnSaveBorderColor":"rgba(98, 190, 84, 1)","btnSaveBorderWidth":"1px"},
       id: '',
       type: '',
       ro:{
+	userid : false,
 	username : false,
-	password : false,
-	role : false,
+	content : false,
+	cpicture : false,
+	reply : false,
+	rpicture : false,
       },
       ruleForm: {
+        userid: '',
         username: '',
-        password: '',
+        content: '',
+        cpicture: '',
+        reply: '',
+        rpicture: '',
       },
       rules: {
+          userid: [
+                { required: true, message: '留言人id不能为空', trigger: 'blur' },
+          ],
           username: [
-                { required: true, message: '用户名不能为空', trigger: 'blur' },
           ],
-          password: [
-                { required: true, message: '密码不能为空', trigger: 'blur' },
+          content: [
+                { required: true, message: '留言内容不能为空', trigger: 'blur' },
           ],
-          role: [
+          cpicture: [
+          ],
+          reply: [
+          ],
+          rpicture: [
           ],
       }
     };
@@ -185,19 +238,34 @@ export default {
       }else if(this.type=='cross'){
         var obj = this.$storage.getObj('crossObj');
         for (var o in obj){
+          if(o=='userid'){
+            this.ruleForm.userid = obj[o];
+	    this.ro.userid = true;
+            continue;
+          }
           if(o=='username'){
             this.ruleForm.username = obj[o];
 	    this.ro.username = true;
             continue;
           }
-          if(o=='password'){
-            this.ruleForm.password = obj[o];
-	    this.ro.password = true;
+          if(o=='content'){
+            this.ruleForm.content = obj[o];
+	    this.ro.content = true;
             continue;
           }
-          if(o=='role'){
-            this.ruleForm.role = obj[o];
-	    this.ro.role = true;
+          if(o=='cpicture'){
+            this.ruleForm.cpicture = obj[o];
+	    this.ro.cpicture = true;
+            continue;
+          }
+          if(o=='reply'){
+            this.ruleForm.reply = obj[o];
+	    this.ro.reply = true;
+            continue;
+          }
+          if(o=='rpicture'){
+            this.ruleForm.rpicture = obj[o];
+	    this.ro.rpicture = true;
             continue;
           }
         }
@@ -206,7 +274,7 @@ export default {
     // 多级联动参数
     info(id) {
       this.$http({
-        url: `users/info/${id}`,
+        url: `messages/info/${id}`,
         method: "get"
       }).then(({ data }) => {
         if (data && data.code === 0) {
@@ -228,6 +296,18 @@ export default {
 
 
 
+
+
+	if(this.ruleForm.cpicture!=null) {
+		this.ruleForm.cpicture = this.ruleForm.cpicture.replace(new RegExp(this.$base.url,"g"),"");
+	}
+
+
+
+
+	if(this.ruleForm.rpicture!=null) {
+		this.ruleForm.rpicture = this.ruleForm.rpicture.replace(new RegExp(this.$base.url,"g"),"");
+	}
 
 var objcross = this.$storage.getObj('crossObj');
 
@@ -265,26 +345,26 @@ var objcross = this.$storage.getObj('crossObj');
 		 if(crossrefid && crossuserid) {
 			 this.ruleForm.crossuserid = crossuserid;
 			 this.ruleForm.crossrefid = crossrefid;
-			let params = {
-				page: 1,
-				limit: 10,
+			let params = { 
+				page: 1, 
+				limit: 10, 
 				crossuserid:this.ruleForm.crossuserid,
 				crossrefid:this.ruleForm.crossrefid,
-			}
-			this.$http({
-				url: "users/page",
-				method: "get",
-				params: params
-			}).then(({
-				data
-			}) => {
-				if (data && data.code === 0) {
+			} 
+			this.$http({ 
+				url: "messages/page", 
+				method: "get", 
+				params: params 
+			}).then(({ 
+				data 
+			}) => { 
+				if (data && data.code === 0) { 
 				       if(data.data.total>=crossoptnum) {
 					     this.$message.error(this.$storage.get('tips'));
 					       return false;
 				       } else {
 					 this.$http({
-					   url: `users/${!this.ruleForm.id ? "save" : "update"}`,
+					   url: `messages/${!this.ruleForm.id ? "save" : "update"}`,
 					   method: "post",
 					   data: this.ruleForm
 					 }).then(({ data }) => {
@@ -296,7 +376,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       onClose: () => {
 						 this.parent.showFlag = true;
 						 this.parent.addOrUpdateFlag = false;
-						 this.parent.usersCrossAddOrUpdateFlag = false;
+						 this.parent.messagesCrossAddOrUpdateFlag = false;
 						 this.parent.search();
 						 this.parent.contentStyleChange();
 					       }
@@ -307,12 +387,12 @@ var objcross = this.$storage.getObj('crossObj');
 					 });
 
 				       }
-				} else {
-				}
+				} else { 
+				} 
 			});
 		 } else {
 			 this.$http({
-			   url: `users/${!this.ruleForm.id ? "save" : "update"}`,
+			   url: `messages/${!this.ruleForm.id ? "save" : "update"}`,
 			   method: "post",
 			   data: this.ruleForm
 			 }).then(({ data }) => {
@@ -324,7 +404,7 @@ var objcross = this.$storage.getObj('crossObj');
 			       onClose: () => {
 				 this.parent.showFlag = true;
 				 this.parent.addOrUpdateFlag = false;
-				 this.parent.usersCrossAddOrUpdateFlag = false;
+				 this.parent.messagesCrossAddOrUpdateFlag = false;
 				 this.parent.search();
 				 this.parent.contentStyleChange();
 			       }
@@ -345,8 +425,16 @@ var objcross = this.$storage.getObj('crossObj');
     back() {
       this.parent.showFlag = true;
       this.parent.addOrUpdateFlag = false;
-      this.parent.usersCrossAddOrUpdateFlag = false;
+      this.parent.messagesCrossAddOrUpdateFlag = false;
       this.parent.contentStyleChange();
+    },
+    cpictureUploadChange(fileUrls) {
+	this.ruleForm.cpicture = fileUrls;
+	this.addEditUploadStyleChange()
+    },
+    rpictureUploadChange(fileUrls) {
+	this.ruleForm.rpicture = fileUrls;
+	this.addEditUploadStyleChange()
     },
 	addEditStyleChange() {
 	  this.$nextTick(()=>{
@@ -490,7 +578,7 @@ var objcross = this.$storage.getObj('crossObj');
 <style lang="scss">
 .editor{
   height: 500px;
-
+  
   & /deep/ .ql-container {
 	  height: 310px;
   }
