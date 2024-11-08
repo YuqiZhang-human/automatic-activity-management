@@ -4,31 +4,11 @@
     <div v-if="showFlag">
       <el-form :inline="true" :model="searchForm" class="form-content">
         <el-row  :gutter="20" class="slt" :style="{justifyContent:contents.searchBoxPosition=='1'?'flex-start':contents.searchBoxPosition=='2'?'center':'flex-end'}">
-                <el-form-item :label="contents.inputTitle == 1 ? '活动名称' : ''">
-                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 1" prefix-icon="el-icon-search" v-model="searchForm.huodongmingcheng" placeholder="活动名称" clearable></el-input>
-                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 2" suffix-icon="el-icon-search" v-model="searchForm.huodongmingcheng" placeholder="活动名称" clearable></el-input>
-                  <el-input v-if="contents.inputIcon == 0" v-model="searchForm.huodongmingcheng" placeholder="活动名称" clearable></el-input>
+                <el-form-item :label="contents.inputTitle == 1 ? '用户名' : ''">
+                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 1" prefix-icon="el-icon-search" v-model="searchForm.username" placeholder="用户名" clearable></el-input>
+                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 2" suffix-icon="el-icon-search" v-model="searchForm.username" placeholder="用户名" clearable></el-input>
+                  <el-input v-if="contents.inputIcon == 0" v-model="searchForm.username" placeholder="用户名" clearable></el-input>
                 </el-form-item>
-		<el-form-item class="select" label="活动类型" prop="huodongleixing">
-		  <el-select  @change="huodongleixingChange" clearable v-model="searchForm.huodongleixing" placeholder="请选择活动类型">
-		    <el-option
-			v-for="(item,index) in huodongleixingOptions"
-			v-bind:key="index"
-			:label="item"
-			:value="item">
-		    </el-option>
-		  </el-select>
-		</el-form-item>
-		<el-form-item class="select" label="是否通过" prop="sfsh">
-		  <el-select  @change="sfshChange" clearable v-model="searchForm.sfsh" placeholder="是否通过">
-		    <el-option
-			v-for="(item,index) in sfshOptions"
-			v-bind:key="index"
-			:label="item"
-			:value="item">
-		    </el-option>
-		  </el-select>
-		</el-form-item>
           <el-form-item>
             <el-button v-if="contents.searchBtnIcon == 1 && contents.searchBtnIconPosition == 1" icon="el-icon-search" type="success" @click="search()">{{ contents.searchBtnFont == 1?'查询':'' }}</el-button>
             <el-button v-if="contents.searchBtnIcon == 1 && contents.searchBtnIconPosition == 2" type="success" @click="search()">{{ contents.searchBtnFont == 1?'查询':'' }}<i class="el-icon-search el-icon--right"/></el-button>
@@ -39,36 +19,36 @@
         <el-row class="ad" :style="{justifyContent:contents.btnAdAllBoxPosition=='1'?'flex-start':contents.btnAdAllBoxPosition=='2'?'center':'flex-end'}">
           <el-form-item>
             <el-button
-              v-if="isAuth('huodongxinxi','新增') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 1"
+              v-if="isAuth('users','新增') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 1"
               type="success"
               icon="el-icon-plus"
               @click="addOrUpdateHandler()"
             >{{ contents.btnAdAllFont == 1?'新增':'' }}</el-button>
             <el-button
-              v-if="isAuth('huodongxinxi','新增') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 2"
+              v-if="isAuth('users','新增') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 2"
               type="success"
               @click="addOrUpdateHandler()"
             >{{ contents.btnAdAllFont == 1?'新增':'' }}<i class="el-icon-plus el-icon--right" /></el-button>
             <el-button
-              v-if="isAuth('huodongxinxi','新增') && contents.btnAdAllIcon == 0"
+              v-if="isAuth('users','新增') && contents.btnAdAllIcon == 0"
               type="success"
               @click="addOrUpdateHandler()"
             >{{ contents.btnAdAllFont == 1?'新增':'' }}</el-button>
             <el-button
-              v-if="isAuth('huodongxinxi','删除') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 1 && contents.tableSelection"
+              v-if="isAuth('users','删除') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 1 && contents.tableSelection"
               :disabled="dataListSelections.length <= 0"
               type="danger"
               icon="el-icon-delete"
               @click="deleteHandler()"
             >{{ contents.btnAdAllFont == 1?'删除':'' }}</el-button>
             <el-button
-              v-if="isAuth('huodongxinxi','删除') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 2 && contents.tableSelection"
+              v-if="isAuth('users','删除') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 2 && contents.tableSelection"
               :disabled="dataListSelections.length <= 0"
               type="danger"
               @click="deleteHandler()"
             >{{ contents.btnAdAllFont == 1?'删除':'' }}<i class="el-icon-delete el-icon--right" /></el-button>
             <el-button
-              v-if="isAuth('huodongxinxi','删除') && contents.btnAdAllIcon == 0 && contents.tableSelection"
+              v-if="isAuth('users','删除') && contents.btnAdAllIcon == 0 && contents.tableSelection"
               :disabled="dataListSelections.length <= 0"
               type="danger"
               @click="deleteHandler()"
@@ -88,7 +68,7 @@
             :fit="contents.tableFit"
             :stripe="contents.tableStripe"
             :style="{width: '100%',fontSize:contents.tableContentFontSize,color:contents.tableContentFontColor}"
-            v-if="isAuth('huodongxinxi','查看')"
+            v-if="isAuth('users','查看')"
             :data="dataList"
             v-loading="dataListLoading"
             @selection-change="selectionChangeHandler">
@@ -100,98 +80,46 @@
             </el-table-column>
             <el-table-column label="索引" :align="contents.tableAlign"  v-if="contents.tableIndex" type="index" width="50" />
                 <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="huodongmingcheng"
+                    prop="username"
                    :header-align="contents.tableAlign"
-		    label="活动名称">
+		    label="用户名">
 		     <template slot-scope="scope">
-                       {{scope.row.huodongmingcheng}}
+                       {{scope.row.username}}
                      </template>
                 </el-table-column>
                 <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="huodongleixing"
+                    prop="password"
                    :header-align="contents.tableAlign"
-		    label="活动类型">
+		    label="密码">
 		     <template slot-scope="scope">
-                       {{scope.row.huodongleixing}}
-                     </template>
-                </el-table-column>
-                  <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign"  prop="tupian"
-                   :header-align="contents.tableAlign"
-                    width="200"
-                    label="图片">
-                    <template slot-scope="scope">
-                      <div v-if="scope.row.tupian">
-                        <img :src="$base.url+scope.row.tupian.split(',')[0]" width="100" height="100">
-                      </div>
-                      <div v-else>无图片</div>
-                    </template>
-                  </el-table-column>
-                <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="huodongshijian"
-                   :header-align="contents.tableAlign"
-		    label="活动时间">
-		     <template slot-scope="scope">
-                       {{scope.row.huodongshijian}}
+                       {{scope.row.password}}
                      </template>
                 </el-table-column>
                 <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="renshu"
+                    prop="role"
                    :header-align="contents.tableAlign"
-		    label="人数">
+		    label="角色">
 		     <template slot-scope="scope">
-                       {{scope.row.renshu}}
+                       {{scope.row.role}}
                      </template>
                 </el-table-column>
-                <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="huodongchangdi"
-                   :header-align="contents.tableAlign"
-		    label="活动场地">
-		     <template slot-scope="scope">
-                       {{scope.row.huodongchangdi}}
-                     </template>
-                </el-table-column>
-              <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                  prop="shhf"
-                 :header-align="contents.tableAlign"
-                  label="审核回复">
-              </el-table-column>
-              <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                  prop="sfsh"
-                 :header-align="contents.tableAlign"
-                  label="审核状态">
-                  <template slot-scope="scope">
-                    <span style="margin-right:10px">{{scope.row.sfsh=='是'?'通过':'未通过'}}</span>
-                  </template>
-              </el-table-column>
-              <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                  v-if="isAuth('huodongxinxi','审核')"
-                  prop="sfsh"
-                 :header-align="contents.tableAlign"
-                  label="审核">
-                  <template slot-scope="scope">
-                    <el-button  type="text" icon="el-icon-edit" size="small" @click="shDialog(scope.row)">审核</el-button>
-                  </template>
-              </el-table-column>
             <el-table-column width="300" :align="contents.tableAlign" 
                :header-align="contents.tableAlign"
                 label="操作">
                 <template slot-scope="scope">
-                <el-button v-if="isAuth('huodongxinxi','查看') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="success" icon="el-icon-tickets" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
-                <el-button v-if="isAuth('huodongxinxi','查看') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}<i class="el-icon-tickets el-icon--right" /></el-button>
-                <el-button v-if="isAuth('huodongxinxi','查看') && contents.tableBtnIcon == 0" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
-                <el-button v-if="isAuth('huodongxinxi','报名') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="success" icon="el-icon-tickets" size="mini" @click="huodongbaomingCrossAddOrUpdateHandler(scope.row,'cross','是','','')">{{ contents.tableBtnFont == 1?'报名':'' }}</el-button>
-                <el-button v-if="isAuth('huodongxinxi','报名') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="success" size="mini" @click="huodongbaomingCrossAddOrUpdateHandler(scope.row,'cross','是','','')">{{ contents.tableBtnFont == 1?'报名':'' }}<i class="el-icon-tickets el-icon--right" /></el-button>
-                <el-button v-if="isAuth('huodongxinxi','报名') && contents.tableBtnIcon == 0" type="success" size="mini" @click="huodongbaomingCrossAddOrUpdateHandler(scope.row,'cross','是','','')">{{ contents.tableBtnFont == 1?'报名':'' }}</el-button>
-                <el-button v-if=" isAuth('huodongxinxi','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="primary" icon="el-icon-edit" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
-                <el-button v-if=" isAuth('huodongxinxi','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}<i class="el-icon-edit el-icon--right" /></el-button>
-                <el-button v-if=" isAuth('huodongxinxi','修改') && contents.tableBtnIcon == 0" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
+                <el-button v-if="isAuth('users','查看') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="success" icon="el-icon-tickets" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
+                <el-button v-if="isAuth('users','查看') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}<i class="el-icon-tickets el-icon--right" /></el-button>
+                <el-button v-if="isAuth('users','查看') && contents.tableBtnIcon == 0" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
+                <el-button v-if=" isAuth('users','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="primary" icon="el-icon-edit" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
+                <el-button v-if=" isAuth('users','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}<i class="el-icon-edit el-icon--right" /></el-button>
+                <el-button v-if=" isAuth('users','修改') && contents.tableBtnIcon == 0" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
 
 
 
 
-                <el-button v-if="isAuth('huodongxinxi','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
-                <el-button v-if="isAuth('huodongxinxi','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}<i class="el-icon-delete el-icon--right" /></el-button>
-                <el-button v-if="isAuth('huodongxinxi','删除') && contents.tableBtnIcon == 0" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
+                <el-button v-if="isAuth('users','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
+                <el-button v-if="isAuth('users','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}<i class="el-icon-delete el-icon--right" /></el-button>
+                <el-button v-if="isAuth('users','删除') && contents.tableBtnIcon == 0" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -214,28 +142,7 @@
     <!-- 添加/修改页面  将父组件的search方法传递给子组件-->
     <add-or-update v-if="addOrUpdateFlag" :parent="this" ref="addOrUpdate"></add-or-update>
 
-    <huodongbaoming-cross-add-or-update v-if="huodongbaomingCrossAddOrUpdateFlag" :parent="this" ref="huodongbaomingCrossaddOrUpdate"></huodongbaoming-cross-add-or-update>
 
-    <el-dialog
-      title="审核"
-      :visible.sync="sfshVisiable"
-      width="50%">
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="审核状态">
-          <el-select v-model="shForm.sfsh" placeholder="审核状态">
-            <el-option label="通过" value="是"></el-option>
-            <el-option label="不通过" value="否"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="内容">
-          <el-input type="textarea" :rows="8" v-model="shForm.shhf"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="shDialog">取 消</el-button>
-        <el-button type="primary" @click="shHandler">确 定</el-button>
-      </span>
-    </el-dialog>
 
 
 
@@ -244,11 +151,9 @@
 <script>
 import axios from 'axios'
 import AddOrUpdate from "./add-or-update";
-import huodongbaomingCrossAddOrUpdate from "../huodongbaoming/add-or-update";
 export default {
   data() {
     return {
-      huodongleixingOptions: [],
       searchForm: {
         key: ""
       },
@@ -264,7 +169,6 @@ export default {
       shForm: {},
       chartVisiable: false,
       addOrUpdateFlag:false,
-      huodongbaomingCrossAddOrUpdateFlag: false,
       contents:{"searchBtnFontColor":"rgba(255, 255, 255, 1)","pagePosition":"1","inputFontSize":"14px","inputBorderRadius":"160px","tableBtnDelFontColor":"rgba(98, 190, 84, 1)","tableBtnIconPosition":"1","searchBtnHeight":"40px","tableBgColor":"#f5f5f5","inputIconColor":"rgba(255, 255, 255, 1)","searchBtnBorderRadius":"160px","tableStripe":true,"btnAdAllWarnFontColor":"rgba(98, 190, 84, 1)","tableBtnDelBgColor":"#fff","searchBtnIcon":"0","tableSize":"medium","searchBtnBorderStyle":"solid","text":{"padding":"10px 20px","boxShadow":"0 0 0px rgba(0,0,0,.1)","margin":"0 auto","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(247, 247, 247, 0)","color":"rgba(98, 190, 84, 1)","borderRadius":"6px","borderWidth":"0","width":"auto","lineHeight":"600px","fontSize":"40px","borderStyle":"solid"},"tableSelection":true,"searchBtnBorderWidth":"4px","tableContentFontSize":"14px","searchBtnBgColor":"rgba(98, 190, 84, 1)","inputTitleSize":"14px","btnAdAllBorderColor":"#DCDFE6","pageJumper":true,"btnAdAllIconPosition":"1","searchBoxPosition":"2","tableBtnDetailFontColor":"rgba(98, 190, 84, 1)","tableBtnHeight":"40px","pagePager":true,"searchBtnBorderColor":"rgba(78, 147, 67, 1)","tableHeaderFontColor":"rgba(255, 255, 255, 1)","inputTitle":"1","tableBtnBorderRadius":"4px","btnAdAllFont":"1","btnAdAllDelFontColor":"rgba(98, 190, 84, 1)","tableBtnIcon":"1","btnAdAllHeight":"40px","btnAdAllWarnBgColor":"rgba(255, 255, 255, 0)","btnAdAllBorderWidth":"0px","tableStripeFontColor":"#606266","tableBtnBorderStyle":"solid","inputHeight":"40px","btnAdAllBorderRadius":"4px","btnAdAllDelBgColor":"rgba(255, 255, 255, 0)","pagePrevNext":true,"btnAdAllAddBgColor":"rgba(255, 255, 255, 0)","searchBtnFont":"1","tableIndex":true,"btnAdAllIcon":"1","tableSortable":false,"pageSizes":true,"tableFit":true,"pageBtnBG":false,"searchBtnFontSize":"14px","tableBtnEditBgColor":"#fff","box":{"padding":"10px 20px","boxShadow":"0 0 6px rgba(0,0,0,0)","flag":1,"backgroundImage":"","background":"#fff"},"inputBorderWidth":"4px","inputFontPosition":"1","inputFontColor":"rgba(255, 255, 255, 1)","pageEachNum":10,"tableHeaderBgColor":"rgba(98, 190, 84, 1)","inputTitleColor":"rgba(98, 190, 84, 1)","btnAdAllBoxPosition":"1","tableBtnDetailBgColor":"#fff","inputIcon":"1","searchBtnIconPosition":"1","btnAdAllFontSize":"14px","inputBorderStyle":"solid","tableHoverFontColor":"#333","inputBgColor":"rgba(98, 190, 84, 1)","pageStyle":false,"pageTotal":true,"btnAdAllAddFontColor":"rgba(98, 190, 84, 1)","tableBtnFont":"1","tableContentFontColor":"#606266","inputBorderColor":"rgba(78, 147, 67, 1)","tableShowHeader":true,"tableHoverBgColor":"#f5f5f5","tableBtnFontSize":"14px","tableBtnBorderColor":"rgba(98, 190, 84, 1)","inputIconPosition":"2","tableBorder":true,"btnAdAllBorderStyle":"solid","tableBtnBorderWidth":"5px 1px","tableStripeBgColor":"#F5F7FA","tableBtnEditFontColor":"rgba(98, 190, 84, 1)","tableAlign":"center"},
       layouts: '',
 
@@ -286,7 +190,6 @@ export default {
   },
   components: {
     AddOrUpdate,
-    huodongbaomingCrossAddOrUpdate,
   },
   methods: {
 
@@ -466,59 +369,7 @@ export default {
       this.contents.pageEachNum = 10
     },
 
-    huodongbaomingCrossAddOrUpdateHandler(row,type,crossOptAudit,statusColumnName,tips,statusColumnValue){
-	if(crossOptAudit=='是'&&row.sfsh!='是') {
-	    this.$message({
-	      message: "请审核通过后再操作",
-	      type: "success",
-	      duration: 1500,
-	      onClose: () => {
-	      }
-	    });
-		return
-	}
-      this.showFlag = false;
-      this.addOrUpdateFlag = false;
-      this.huodongbaomingCrossAddOrUpdateFlag = true;
-      this.$storage.set('crossObj',row);
-      this.$storage.set('crossTable','huodongxinxi');
-      this.$storage.set('statusColumnName',statusColumnName);
-      this.$storage.set('statusColumnValue',statusColumnValue);
-      this.$storage.set('tips',tips);
-	if(statusColumnName!=''&&!statusColumnName.startsWith("[")) {
-		var obj = this.$storage.getObj('crossObj');
-		for (var o in obj){
-		  if(o==statusColumnName && obj[o]==statusColumnValue){
-		    this.$message({
-		      message: tips,
-		      type: "success",
-		      duration: 1500,
-		      onClose: () => {
-			this.getDataList();
-		      }
-		    });
-		      this.showFlag = true;
-		      this.huodongbaomingCrossAddOrUpdateFlag = false;
-			return;
-		  }
-		}
-	}
-      this.$nextTick(() => {
-      this.$refs.huodongbaomingCrossaddOrUpdate.init(row.id,type);
-      });
-    },
     init () {
-        this.sfshOptions = "是,否".split(',');
-          this.$http({
-            url: `option/huodongleixing/huodongleixing`,
-            method: "get"
-          }).then(({ data }) => {
-            if (data && data.code === 0) {
-              this.huodongleixingOptions = data.data;
-            } else {
-              this.$message.error(data.msg);
-            }
-          });
     },
     search() {
       this.pageIndex = 1;
@@ -533,41 +384,11 @@ export default {
         limit: this.pageSize,
         sort: 'id',
       }
-          if(this.searchForm.huodongmingcheng!='' && this.searchForm.huodongmingcheng!=undefined){
-            params['huodongmingcheng'] = '%' + this.searchForm.huodongmingcheng + '%'
-          }
-          if(this.searchForm.sfsh!='' && this.searchForm.sfsh!=undefined){
-            params['sfsh'] = this.searchForm.sfsh
-          }
-          if(this.searchForm.huodongleixing!='' && this.searchForm.huodongleixing!=undefined){
-            params['huodongleixing'] = this.searchForm.huodongleixing
-          }
-          if(this.searchForm.sfsh!='' && this.searchForm.sfsh!=undefined){
-            params['sfsh'] = this.searchForm.sfsh
-          }
-          if(this.searchForm.sfsh!='' && this.searchForm.sfsh!=undefined){
-            params['sfsh'] = this.searchForm.sfsh
-          }
-          if(this.searchForm.sfsh!='' && this.searchForm.sfsh!=undefined){
-            params['sfsh'] = this.searchForm.sfsh
-          }
-          if(this.searchForm.sfsh!='' && this.searchForm.sfsh!=undefined){
-            params['sfsh'] = this.searchForm.sfsh
-          }
-          if(this.searchForm.sfsh!='' && this.searchForm.sfsh!=undefined){
-            params['sfsh'] = this.searchForm.sfsh
-          }
-          if(this.searchForm.sfsh!='' && this.searchForm.sfsh!=undefined){
-            params['sfsh'] = this.searchForm.sfsh
-          }
-          if(this.searchForm.sfsh!='' && this.searchForm.sfsh!=undefined){
-            params['sfsh'] = this.searchForm.sfsh
-          }
-          if(this.searchForm.sfsh!='' && this.searchForm.sfsh!=undefined){
-            params['sfsh'] = this.searchForm.sfsh
+          if(this.searchForm.username!='' && this.searchForm.username!=undefined){
+            params['username'] = '%' + this.searchForm.username + '%'
           }
       this.$http({
-        url: "huodongxinxi/page",
+        url: "users/page",
         method: "get",
         params: params
       }).then(({ data }) => {
@@ -609,52 +430,6 @@ export default {
       });
     },
     // 查看评论
-    // 审核窗口
-    shDialog(row){
-      this.sfshVisiable = !this.sfshVisiable;
-      if(row){
-        this.shForm = {
-          huodongmingcheng: row.huodongmingcheng,
-          huodongleixing: row.huodongleixing,
-          tupian: row.tupian,
-          huodongshijian: row.huodongshijian,
-          renshu: row.renshu,
-          huodongchangdi: row.huodongchangdi,
-          huodongjieshao: row.huodongjieshao,
-          sfsh: row.sfsh,
-          shhf: row.shhf,
-          id: row.id
-        }
-      }
-    },
-    // 审核
-    shHandler(){
-      this.$confirm(`确定操作?`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        this.$http({
-          url: "huodongxinxi/update",
-          method: "post",
-          data: this.shForm
-        }).then(({ data }) => {
-          if (data && data.code === 0) {
-            this.$message({
-              message: "操作成功",
-              type: "success",
-              duration: 1500,
-              onClose: () => {
-                this.getDataList();
-                this.shDialog()
-              }
-            });
-          } else {
-            this.$message.error(data.msg);
-          }
-        });
-      });
-    },
     // 下载
     download(file){
       window.open(`${file}`)
@@ -672,7 +447,7 @@ export default {
         type: "warning"
       }).then(() => {
         this.$http({
-          url: "huodongxinxi/delete",
+          url: "users/delete",
           method: "post",
           data: ids
         }).then(({ data }) => {

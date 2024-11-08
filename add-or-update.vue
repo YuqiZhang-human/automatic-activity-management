@@ -10,120 +10,37 @@
     >
       <el-row >
       <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="活动名称" prop="huodongmingcheng">
-          <el-input v-model="ruleForm.huodongmingcheng" 
-              placeholder="活动名称" clearable  :readonly="ro.huodongmingcheng"></el-input>
+        <el-form-item class="input" v-if="type!='info'"  label="用户名" prop="username">
+          <el-input v-model="ruleForm.username"
+              placeholder="用户名" clearable  :readonly="ro.username"></el-input>
         </el-form-item>
         <div v-else>
-          <el-form-item class="input" label="活动名称" prop="huodongmingcheng">
-              <el-input v-model="ruleForm.huodongmingcheng" 
-                placeholder="活动名称" readonly></el-input>
+          <el-form-item class="input" label="用户名" prop="username">
+              <el-input v-model="ruleForm.username"
+                placeholder="用户名" readonly></el-input>
           </el-form-item>
         </div>
       </el-col>
       <el-col :span="12">
-        <el-form-item class="select" v-if="type!='info'"  label="活动类型" prop="huodongleixing">
-          <el-select :disabled="ro.huodongleixing" v-model="ruleForm.huodongleixing" placeholder="请选择活动类型">
-            <el-option
-                v-for="(item,index) in huodongleixingOptions"
-                v-bind:key="index"
-                :label="item"
-                :value="item">
-            </el-option>
-          </el-select>
+        <el-form-item class="input" v-if="type!='info'"  label="密码" prop="password">
+          <el-input v-model="ruleForm.password"
+              placeholder="密码" clearable  :readonly="ro.password"></el-input>
         </el-form-item>
         <div v-else>
-          <el-form-item class="input" label="活动类型" prop="huodongleixing">
-	      <el-input v-model="ruleForm.huodongleixing"
-                placeholder="活动类型" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="24">  
-        <el-form-item class="upload" v-if="type!='info' && !ro.tupian" label="图片" prop="tupian">
-          <file-upload
-          tip="点击上传图片"
-          action="file/upload"
-          :limit="3"
-          :multiple="true"
-          :fileUrls="ruleForm.tupian?ruleForm.tupian:''"
-          @change="tupianUploadChange"
-          ></file-upload>
-        </el-form-item>
-        <div v-else>
-          <el-form-item v-if="ruleForm.tupian" label="图片" prop="tupian">
-            <img style="margin-right:20px;" v-bind:key="index" v-for="(item,index) in ruleForm.tupian.split(',')" :src="$base.url+item" width="100" height="100">
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item class="date" v-if="type!='info'" label="活动时间" prop="huodongshijian">
-            <el-date-picker
-                format="yyyy 年 MM 月 dd 日"
-                value-format="yyyy-MM-dd"
-                v-model="ruleForm.huodongshijian" 
-                type="date"
-                :readonly="ro.huodongshijian"
-                placeholder="活动时间">
-            </el-date-picker> 
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" v-if="ruleForm.huodongshijian" label="活动时间" prop="huodongshijian">
-              <el-input v-model="ruleForm.huodongshijian" 
-                placeholder="活动时间" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="人数" prop="renshu">
-          <el-input v-model="ruleForm.renshu" 
-              placeholder="人数" clearable  :readonly="ro.renshu"></el-input>
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" label="人数" prop="renshu">
-              <el-input v-model="ruleForm.renshu" 
-                placeholder="人数" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="活动场地" prop="huodongchangdi">
-          <el-input v-model="ruleForm.huodongchangdi" 
-              placeholder="活动场地" clearable  :readonly="ro.huodongchangdi"></el-input>
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" label="活动场地" prop="huodongchangdi">
-              <el-input v-model="ruleForm.huodongchangdi" 
-                placeholder="活动场地" readonly></el-input>
+          <el-form-item class="input" label="密码" prop="password">
+              <el-input v-model="ruleForm.password"
+                placeholder="密码" readonly></el-input>
           </el-form-item>
         </div>
       </el-col>
       </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item class="textarea" v-if="type!='info'" label="活动介绍" prop="huodongjieshao">
-                <el-input
-                  style="min-width: 200px; max-width: 600px;"
-                  type="textarea"
-                  :rows="8"
-                  placeholder="活动介绍"
-                  v-model="ruleForm.huodongjieshao" >
-                </el-input>
-              </el-form-item>
-              <div v-else>
-                <el-form-item v-if="ruleForm.huodongjieshao" label="活动介绍" prop="huodongjieshao">
-                    <span>{{ruleForm.huodongjieshao}}</span>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
       <el-form-item class="btn">
         <el-button  v-if="type!='info'" type="primary" class="btn-success" @click="onSubmit">提交</el-button>
         <el-button v-if="type!='info'" class="btn-close" @click="back()">取消</el-button>
         <el-button v-if="type=='info'" class="btn-close" @click="back()">返回</el-button>
       </el-form-item>
     </el-form>
-    
+
 
   </div>
 </template>
@@ -197,52 +114,44 @@ export default {
       }
     };
     return {
-	  addEditForm: {"btnSaveFontColor":"#fff","selectFontSize":"14px","btnCancelBorderColor":"rgba(98, 190, 84, 1)","inputBorderRadius":"4px","inputFontSize":"14px","textareaBgColor":"#fff","btnSaveFontSize":"14px","textareaBorderRadius":"4px","uploadBgColor":"#fff","textareaBorderStyle":"solid","btnCancelWidth":"88px","textareaHeight":"120px","dateBgColor":"#fff","btnSaveBorderRadius":"4px","uploadLableFontSize":"14px","textareaBorderWidth":"5px 2px","inputLableColor":"#606266","addEditBoxColor":"#fff","dateIconFontSize":"14px","btnSaveBgColor":"rgba(98, 190, 84, 1)","uploadIconFontColor":"rgba(98, 190, 84, 1)","textareaBorderColor":"rgba(98, 190, 84, 1)","btnCancelBgColor":"rgba(255, 255, 255, 1)","btnSaveBorderStyle":"solid","dateBorderWidth":"5px 2px","dateLableFontSize":"14px","dateBorderRadius":"4px","btnCancelBorderStyle":"solid","selectLableFontSize":"14px","selectBorderStyle":"solid","selectIconFontColor":"rgba(98, 190, 84, 1)","btnCancelHeight":"44px","inputHeight":"40px","btnCancelFontColor":"rgba(98, 190, 84, 1)","dateBorderColor":"rgba(98, 190, 84, 1)","dateIconFontColor":"rgba(98, 190, 84, 1)","uploadBorderStyle":"solid","dateBorderStyle":"solid","dateLableColor":"#606266","dateFontSize":"14px","inputBorderWidth":"5px 2px","uploadIconFontSize":"28px","selectHeight":"40px","inputFontColor":"#606266","uploadHeight":"148px","textareaLableColor":"#606266","textareaLableFontSize":"14px","btnCancelFontSize":"14px","inputBorderStyle":"solid","btnCancelBorderRadius":"4px","inputBgColor":"#fff","inputLableFontSize":"14px","uploadLableColor":"#606266","uploadBorderRadius":"4px","btnSaveHeight":"44px","selectBgColor":"#fff","btnSaveWidth":"88px","selectIconFontSize":"14px","dateHeight":"40px","selectBorderColor":"rgba(98, 190, 84, 1)","inputBorderColor":"rgba(98, 190, 84, 1)","uploadBorderColor":"rgba(98, 190, 84, 1)","textareaFontColor":"#606266","selectBorderWidth":"5px 2px","dateFontColor":"#606266","btnCancelBorderWidth":"1px","uploadBorderWidth":"5px 2px","textareaFontSize":"14px","selectBorderRadius":"4px","selectFontColor":"#606266","btnSaveBorderColor":"rgba(98, 190, 84, 1)","btnSaveBorderWidth":"1px"},
+	  addEditForm: {"btnSaveFontColor":"#fff","selectFontSize":"14px",
+      "btnCancelBorderColor":"rgba(98, 190, 84, 1)","inputBorderRadius":"4px","inputFontSize":"14px",
+      "textareaBgColor":"#fff","btnSaveFontSize":"14px","textareaBorderRadius":"4px","uploadBgColor":"#fff",
+      "textareaBorderStyle":"solid","btnCancelWidth":"88px","textareaHeight":"120px","dateBgColor":"#fff",
+      "btnSaveBorderRadius":"4px","uploadLableFontSize":"14px","textareaBorderWidth":"5px 2px",
+      "inputLableColor":"#606266","addEditBoxColor":"#fff","dateIconFontSize":"14px",
+      "btnSaveBgColor":"rgba(98, 190, 84, 1)","uploadIconFontColor":"rgba(98, 190, 84, 1)",
+      "textareaBorderColor":"rgba(98, 190, 84, 1)","btnCancelBgColor":"rgba(255, 255, 255, 1)",
+      "btnSaveBorderStyle":"solid","dateBorderWidth":"5px 2px","dateLableFontSize":"14px","dateBorderRadius":"4px",
+      "btnCancelBorderStyle":"solid","selectLableFontSize":"14px","selectBorderStyle":"solid",
+      "selectIconFontColor":"rgba(98, 190, 84, 1)","btnCancelHeight":"44px","inputHeight":"40px",
+      "btnCancelFontColor":"rgba(98, 190, 84, 1)","dateBorderColor":"rgba(98, 190, 84, 1)",
+      "dateIconFontColor":"rgba(98, 190, 84, 1)","uploadBorderStyle":"solid","dateBorderStyle":"solid",
+      "dateLableColor":"#606266","dateFontSize":"14px","inputBorderWidth":"5px 2px","uploadIconFontSize":"28px",
+      "selectHeight":"40px","inputFontColor":"#606266","uploadHeight":"148px","textareaLableColor":"#606266",
+      "textareaLableFontSize":"14px","btnCancelFontSize":"14px","inputBorderStyle":"solid","btnCancelBorderRadius":"4px",
+      "inputBgColor":"#fff","inputLableFontSize":"14px","uploadLableColor":"#606266","uploadBorderRadius":"4px",
+      "btnSaveHeight":"44px","selectBgColor":"#fff","btnSaveWidth":"88px","selectIconFontSize":"14px","dateHeight":"40px",
+      "selectBorderColor":"rgba(98, 190, 84, 1)","inputBorderColor":"rgba(98, 190, 84, 1)","uploadBorderColor":"rgba(98, 190, 84, 1)","textareaFontColor":"#606266","selectBorderWidth":"5px 2px","dateFontColor":"#606266","btnCancelBorderWidth":"1px","uploadBorderWidth":"5px 2px","textareaFontSize":"14px","selectBorderRadius":"4px","selectFontColor":"#606266","btnSaveBorderColor":"rgba(98, 190, 84, 1)","btnSaveBorderWidth":"1px"},
       id: '',
       type: '',
       ro:{
-	huodongmingcheng : false,
-	huodongleixing : false,
-	tupian : false,
-	huodongshijian : false,
-	renshu : false,
-	huodongchangdi : false,
-	huodongjieshao : false,
-	sfsh : false,
-	shhf : false,
+	username : false,
+	password : false,
+	role : false,
       },
       ruleForm: {
-        huodongmingcheng: '',
-        huodongleixing: '',
-        tupian: '',
-        huodongshijian: '',
-        renshu: '',
-        huodongchangdi: '',
-        huodongjieshao: '',
-        shhf: '',
+        username: '',
+        password: '',
       },
-          huodongleixingOptions: [],
       rules: {
-          huodongmingcheng: [
-                { required: true, message: '活动名称不能为空', trigger: 'blur' },
+          username: [
+                { required: true, message: '用户名不能为空', trigger: 'blur' },
           ],
-          huodongleixing: [
-                { required: true, message: '活动类型不能为空', trigger: 'blur' },
+          password: [
+                { required: true, message: '密码不能为空', trigger: 'blur' },
           ],
-          tupian: [
-          ],
-          huodongshijian: [
-          ],
-          renshu: [
-                { validator: validateIntNumber, trigger: 'blur' },
-          ],
-          huodongchangdi: [
-          ],
-          huodongjieshao: [
-          ],
-          sfsh: [
-          ],
-          shhf: [
+          role: [
           ],
       }
     };
@@ -276,70 +185,28 @@ export default {
       }else if(this.type=='cross'){
         var obj = this.$storage.getObj('crossObj');
         for (var o in obj){
-          if(o=='huodongmingcheng'){
-            this.ruleForm.huodongmingcheng = obj[o];
-	    this.ro.huodongmingcheng = true;
+          if(o=='username'){
+            this.ruleForm.username = obj[o];
+	    this.ro.username = true;
             continue;
           }
-          if(o=='huodongleixing'){
-            this.ruleForm.huodongleixing = obj[o];
-	    this.ro.huodongleixing = true;
+          if(o=='password'){
+            this.ruleForm.password = obj[o];
+	    this.ro.password = true;
             continue;
           }
-          if(o=='tupian'){
-            this.ruleForm.tupian = obj[o];
-	    this.ro.tupian = true;
-            continue;
-          }
-          if(o=='huodongshijian'){
-            this.ruleForm.huodongshijian = obj[o];
-	    this.ro.huodongshijian = true;
-            continue;
-          }
-          if(o=='renshu'){
-            this.ruleForm.renshu = obj[o];
-	    this.ro.renshu = true;
-            continue;
-          }
-          if(o=='huodongchangdi'){
-            this.ruleForm.huodongchangdi = obj[o];
-	    this.ro.huodongchangdi = true;
-            continue;
-          }
-          if(o=='huodongjieshao'){
-            this.ruleForm.huodongjieshao = obj[o];
-	    this.ro.huodongjieshao = true;
+          if(o=='role'){
+            this.ruleForm.role = obj[o];
+	    this.ro.role = true;
             continue;
           }
         }
       }
-      // 获取用户信息
-      this.$http({
-        url: `${this.$storage.get('sessionTable')}/session`,
-        method: "get"
-      }).then(({ data }) => {
-        if (data && data.code === 0) {
-          var json = data.data;
-        } else {
-          this.$message.error(data.msg);
-        }
-      });
-            this.$http({
-              url: `option/huodongleixing/huodongleixing`,
-              method: "get"
-            }).then(({ data }) => {
-              if (data && data.code === 0) {
-                this.huodongleixingOptions = data.data;
-              } else {
-                this.$message.error(data.msg);
-              }
-            });
-         
     },
     // 多级联动参数
     info(id) {
       this.$http({
-        url: `huodongxinxi/info/${id}`,
+        url: `users/info/${id}`,
         method: "get"
       }).then(({ data }) => {
         if (data && data.code === 0) {
@@ -355,21 +222,6 @@ export default {
 
     // 提交
     onSubmit() {
-
-
-
-
-
-
-	if(this.ruleForm.tupian!=null) {
-		this.ruleForm.tupian = this.ruleForm.tupian.replace(new RegExp(this.$base.url,"g"),"");
-	}
-
-
-
-
-
-
 
 
 
@@ -413,26 +265,26 @@ var objcross = this.$storage.getObj('crossObj');
 		 if(crossrefid && crossuserid) {
 			 this.ruleForm.crossuserid = crossuserid;
 			 this.ruleForm.crossrefid = crossrefid;
-			let params = { 
-				page: 1, 
-				limit: 10, 
+			let params = {
+				page: 1,
+				limit: 10,
 				crossuserid:this.ruleForm.crossuserid,
 				crossrefid:this.ruleForm.crossrefid,
-			} 
-			this.$http({ 
-				url: "huodongxinxi/page", 
-				method: "get", 
-				params: params 
-			}).then(({ 
-				data 
-			}) => { 
-				if (data && data.code === 0) { 
+			}
+			this.$http({
+				url: "users/page",
+				method: "get",
+				params: params
+			}).then(({
+				data
+			}) => {
+				if (data && data.code === 0) {
 				       if(data.data.total>=crossoptnum) {
 					     this.$message.error(this.$storage.get('tips'));
 					       return false;
 				       } else {
 					 this.$http({
-					   url: `huodongxinxi/${!this.ruleForm.id ? "save" : "update"}`,
+					   url: `users/${!this.ruleForm.id ? "save" : "update"}`,
 					   method: "post",
 					   data: this.ruleForm
 					 }).then(({ data }) => {
@@ -444,7 +296,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       onClose: () => {
 						 this.parent.showFlag = true;
 						 this.parent.addOrUpdateFlag = false;
-						 this.parent.huodongxinxiCrossAddOrUpdateFlag = false;
+						 this.parent.usersCrossAddOrUpdateFlag = false;
 						 this.parent.search();
 						 this.parent.contentStyleChange();
 					       }
@@ -455,12 +307,12 @@ var objcross = this.$storage.getObj('crossObj');
 					 });
 
 				       }
-				} else { 
-				} 
+				} else {
+				}
 			});
 		 } else {
 			 this.$http({
-			   url: `huodongxinxi/${!this.ruleForm.id ? "save" : "update"}`,
+			   url: `users/${!this.ruleForm.id ? "save" : "update"}`,
 			   method: "post",
 			   data: this.ruleForm
 			 }).then(({ data }) => {
@@ -472,7 +324,7 @@ var objcross = this.$storage.getObj('crossObj');
 			       onClose: () => {
 				 this.parent.showFlag = true;
 				 this.parent.addOrUpdateFlag = false;
-				 this.parent.huodongxinxiCrossAddOrUpdateFlag = false;
+				 this.parent.usersCrossAddOrUpdateFlag = false;
 				 this.parent.search();
 				 this.parent.contentStyleChange();
 			       }
@@ -493,12 +345,8 @@ var objcross = this.$storage.getObj('crossObj');
     back() {
       this.parent.showFlag = true;
       this.parent.addOrUpdateFlag = false;
-      this.parent.huodongxinxiCrossAddOrUpdateFlag = false;
+      this.parent.usersCrossAddOrUpdateFlag = false;
       this.parent.contentStyleChange();
-    },
-    tupianUploadChange(fileUrls) {
-	this.ruleForm.tupian = fileUrls;
-	this.addEditUploadStyleChange()
     },
 	addEditStyleChange() {
 	  this.$nextTick(()=>{
@@ -642,7 +490,7 @@ var objcross = this.$storage.getObj('crossObj');
 <style lang="scss">
 .editor{
   height: 500px;
-  
+
   & /deep/ .ql-container {
 	  height: 310px;
   }
