@@ -10,26 +10,121 @@
     >
       <el-row >
       <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="用户名" prop="username">
-          <el-input v-model="ruleForm.username"
-              placeholder="用户名" clearable  :readonly="ro.username"></el-input>
+        <el-form-item class="input" v-if="type!='info'"  label="学号" prop="xuehao">
+          <el-input v-model="ruleForm.xuehao" 
+              placeholder="学号" clearable  :readonly="ro.xuehao"></el-input>
         </el-form-item>
         <div v-else>
-          <el-form-item class="input" label="用户名" prop="username">
-              <el-input v-model="ruleForm.username"
-                placeholder="用户名" readonly></el-input>
+          <el-form-item class="input" label="学号" prop="xuehao">
+              <el-input v-model="ruleForm.xuehao" 
+                placeholder="学号" readonly></el-input>
           </el-form-item>
         </div>
       </el-col>
       <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="密码" prop="password">
-          <el-input v-model="ruleForm.password"
-              placeholder="密码" clearable  :readonly="ro.password"></el-input>
+        <el-form-item class="input" v-if="type!='info'"  label="密码" prop="mima">
+          <el-input v-model="ruleForm.mima" 
+              placeholder="密码" clearable  :readonly="ro.mima"></el-input>
         </el-form-item>
         <div v-else>
-          <el-form-item class="input" label="密码" prop="password">
-              <el-input v-model="ruleForm.password"
+          <el-form-item class="input" label="密码" prop="mima">
+              <el-input v-model="ruleForm.mima" 
                 placeholder="密码" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item class="input" v-if="type!='info'"  label="姓名" prop="xingming">
+          <el-input v-model="ruleForm.xingming" 
+              placeholder="姓名" clearable  :readonly="ro.xingming"></el-input>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" label="姓名" prop="xingming">
+              <el-input v-model="ruleForm.xingming" 
+                placeholder="姓名" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item class="select" v-if="type!='info'"  label="性别" prop="xingbie">
+          <el-select :disabled="ro.xingbie" v-model="ruleForm.xingbie" placeholder="请选择性别">
+            <el-option
+                v-for="(item,index) in xingbieOptions"
+                v-bind:key="index"
+                :label="item"
+                :value="item">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" label="性别" prop="xingbie">
+	      <el-input v-model="ruleForm.xingbie"
+                placeholder="性别" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="24">  
+        <el-form-item class="upload" v-if="type!='info' && !ro.touxiang" label="头像" prop="touxiang">
+          <file-upload
+          tip="点击上传头像"
+          action="file/upload"
+          :limit="3"
+          :multiple="true"
+          :fileUrls="ruleForm.touxiang?ruleForm.touxiang:''"
+          @change="touxiangUploadChange"
+          ></file-upload>
+        </el-form-item>
+        <div v-else>
+          <el-form-item v-if="ruleForm.touxiang" label="头像" prop="touxiang">
+            <img style="margin-right:20px;" v-bind:key="index" v-for="(item,index) in ruleForm.touxiang.split(',')" :src="$base.url+item" width="100" height="100">
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item class="input" v-if="type!='info'"  label="年龄" prop="nianling">
+          <el-input v-model="ruleForm.nianling" 
+              placeholder="年龄" clearable  :readonly="ro.nianling"></el-input>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" label="年龄" prop="nianling">
+              <el-input v-model="ruleForm.nianling" 
+                placeholder="年龄" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item class="input" v-if="type!='info'"  label="班级" prop="banji">
+          <el-input v-model="ruleForm.banji" 
+              placeholder="班级" clearable  :readonly="ro.banji"></el-input>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" label="班级" prop="banji">
+              <el-input v-model="ruleForm.banji" 
+                placeholder="班级" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item class="input" v-if="type!='info'"  label="邮箱" prop="youxiang">
+          <el-input v-model="ruleForm.youxiang" 
+              placeholder="邮箱" clearable  :readonly="ro.youxiang"></el-input>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" label="邮箱" prop="youxiang">
+              <el-input v-model="ruleForm.youxiang" 
+                placeholder="邮箱" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item class="input" v-if="type!='info'"  label="手机" prop="shouji">
+          <el-input v-model="ruleForm.shouji" 
+              placeholder="手机" clearable  :readonly="ro.shouji"></el-input>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" label="手机" prop="shouji">
+              <el-input v-model="ruleForm.shouji" 
+                placeholder="手机" readonly></el-input>
           </el-form-item>
         </div>
       </el-col>
@@ -40,7 +135,7 @@
         <el-button v-if="type=='info'" class="btn-close" @click="back()">返回</el-button>
       </el-form-item>
     </el-form>
-
+    
 
   </div>
 </template>
@@ -114,44 +209,64 @@ export default {
       }
     };
     return {
-	  addEditForm: {"btnSaveFontColor":"#fff","selectFontSize":"14px",
-      "btnCancelBorderColor":"rgba(98, 190, 84, 1)","inputBorderRadius":"4px","inputFontSize":"14px",
-      "textareaBgColor":"#fff","btnSaveFontSize":"14px","textareaBorderRadius":"4px","uploadBgColor":"#fff",
-      "textareaBorderStyle":"solid","btnCancelWidth":"88px","textareaHeight":"120px","dateBgColor":"#fff",
-      "btnSaveBorderRadius":"4px","uploadLableFontSize":"14px","textareaBorderWidth":"5px 2px",
-      "inputLableColor":"#606266","addEditBoxColor":"#fff","dateIconFontSize":"14px",
-      "btnSaveBgColor":"rgba(98, 190, 84, 1)","uploadIconFontColor":"rgba(98, 190, 84, 1)",
-      "textareaBorderColor":"rgba(98, 190, 84, 1)","btnCancelBgColor":"rgba(255, 255, 255, 1)",
-      "btnSaveBorderStyle":"solid","dateBorderWidth":"5px 2px","dateLableFontSize":"14px","dateBorderRadius":"4px",
-      "btnCancelBorderStyle":"solid","selectLableFontSize":"14px","selectBorderStyle":"solid",
-      "selectIconFontColor":"rgba(98, 190, 84, 1)","btnCancelHeight":"44px","inputHeight":"40px",
-      "btnCancelFontColor":"rgba(98, 190, 84, 1)","dateBorderColor":"rgba(98, 190, 84, 1)",
-      "dateIconFontColor":"rgba(98, 190, 84, 1)","uploadBorderStyle":"solid","dateBorderStyle":"solid",
-      "dateLableColor":"#606266","dateFontSize":"14px","inputBorderWidth":"5px 2px","uploadIconFontSize":"28px",
-      "selectHeight":"40px","inputFontColor":"#606266","uploadHeight":"148px","textareaLableColor":"#606266",
-      "textareaLableFontSize":"14px","btnCancelFontSize":"14px","inputBorderStyle":"solid","btnCancelBorderRadius":"4px",
-      "inputBgColor":"#fff","inputLableFontSize":"14px","uploadLableColor":"#606266","uploadBorderRadius":"4px",
-      "btnSaveHeight":"44px","selectBgColor":"#fff","btnSaveWidth":"88px","selectIconFontSize":"14px","dateHeight":"40px",
-      "selectBorderColor":"rgba(98, 190, 84, 1)","inputBorderColor":"rgba(98, 190, 84, 1)","uploadBorderColor":"rgba(98, 190, 84, 1)","textareaFontColor":"#606266","selectBorderWidth":"5px 2px","dateFontColor":"#606266","btnCancelBorderWidth":"1px","uploadBorderWidth":"5px 2px","textareaFontSize":"14px","selectBorderRadius":"4px","selectFontColor":"#606266","btnSaveBorderColor":"rgba(98, 190, 84, 1)","btnSaveBorderWidth":"1px"},
+	  addEditForm: {"btnSaveFontColor":"#fff","selectFontSize":"14px","btnCancelBorderColor":"rgba(98, 190, 84, 1)","inputBorderRadius":"4px","inputFontSize":"14px","textareaBgColor":"#fff","btnSaveFontSize":"14px","textareaBorderRadius":"4px","uploadBgColor":"#fff","textareaBorderStyle":"solid","btnCancelWidth":"88px","textareaHeight":"120px","dateBgColor":"#fff","btnSaveBorderRadius":"4px","uploadLableFontSize":"14px","textareaBorderWidth":"5px 2px","inputLableColor":"#606266","addEditBoxColor":"#fff","dateIconFontSize":"14px","btnSaveBgColor":"rgba(98, 190, 84, 1)","uploadIconFontColor":"rgba(98, 190, 84, 1)","textareaBorderColor":"rgba(98, 190, 84, 1)","btnCancelBgColor":"rgba(255, 255, 255, 1)","btnSaveBorderStyle":"solid","dateBorderWidth":"5px 2px","dateLableFontSize":"14px","dateBorderRadius":"4px","btnCancelBorderStyle":"solid","selectLableFontSize":"14px","selectBorderStyle":"solid","selectIconFontColor":"rgba(98, 190, 84, 1)","btnCancelHeight":"44px","inputHeight":"40px","btnCancelFontColor":"rgba(98, 190, 84, 1)","dateBorderColor":"rgba(98, 190, 84, 1)","dateIconFontColor":"rgba(98, 190, 84, 1)","uploadBorderStyle":"solid","dateBorderStyle":"solid","dateLableColor":"#606266","dateFontSize":"14px","inputBorderWidth":"5px 2px","uploadIconFontSize":"28px","selectHeight":"40px","inputFontColor":"#606266","uploadHeight":"148px","textareaLableColor":"#606266","textareaLableFontSize":"14px","btnCancelFontSize":"14px","inputBorderStyle":"solid","btnCancelBorderRadius":"4px","inputBgColor":"#fff","inputLableFontSize":"14px","uploadLableColor":"#606266","uploadBorderRadius":"4px","btnSaveHeight":"44px","selectBgColor":"#fff","btnSaveWidth":"88px","selectIconFontSize":"14px","dateHeight":"40px","selectBorderColor":"rgba(98, 190, 84, 1)","inputBorderColor":"rgba(98, 190, 84, 1)","uploadBorderColor":"rgba(98, 190, 84, 1)","textareaFontColor":"#606266","selectBorderWidth":"5px 2px","dateFontColor":"#606266","btnCancelBorderWidth":"1px","uploadBorderWidth":"5px 2px","textareaFontSize":"14px","selectBorderRadius":"4px","selectFontColor":"#606266","btnSaveBorderColor":"rgba(98, 190, 84, 1)","btnSaveBorderWidth":"1px"},
       id: '',
       type: '',
       ro:{
-	username : false,
-	password : false,
-	role : false,
+	xuehao : false,
+	mima : false,
+	xingming : false,
+	xingbie : false,
+	touxiang : false,
+	nianling : false,
+	banji : false,
+	youxiang : false,
+	shouji : false,
+	sfsh : false,
+	shhf : false,
       },
       ruleForm: {
-        username: '',
-        password: '',
+        xuehao: '',
+        mima: '',
+        xingming: '',
+        xingbie: '',
+        touxiang: '',
+        nianling: '',
+        banji: '',
+        youxiang: '',
+        shouji: '',
+        shhf: '',
       },
+          xingbieOptions: [],
       rules: {
-          username: [
-                { required: true, message: '用户名不能为空', trigger: 'blur' },
+          xuehao: [
+                { required: true, message: '学号不能为空', trigger: 'blur' },
           ],
-          password: [
+          mima: [
                 { required: true, message: '密码不能为空', trigger: 'blur' },
           ],
-          role: [
+          xingming: [
+                { required: true, message: '姓名不能为空', trigger: 'blur' },
+          ],
+          xingbie: [
+          ],
+          touxiang: [
+          ],
+          nianling: [
+          ],
+          banji: [
+          ],
+          youxiang: [
+                { required: true, message: '邮箱不能为空', trigger: 'blur' },
+                { validator: validateEmail, trigger: 'blur' },
+          ],
+          shouji: [
+                { required: true, message: '手机不能为空', trigger: 'blur' },
+                { validator: validateMobile, trigger: 'blur' },
+          ],
+          sfsh: [
+          ],
+          shhf: [
           ],
       }
     };
@@ -185,28 +300,70 @@ export default {
       }else if(this.type=='cross'){
         var obj = this.$storage.getObj('crossObj');
         for (var o in obj){
-          if(o=='username'){
-            this.ruleForm.username = obj[o];
-	    this.ro.username = true;
+          if(o=='xuehao'){
+            this.ruleForm.xuehao = obj[o];
+	    this.ro.xuehao = true;
             continue;
           }
-          if(o=='password'){
-            this.ruleForm.password = obj[o];
-	    this.ro.password = true;
+          if(o=='mima'){
+            this.ruleForm.mima = obj[o];
+	    this.ro.mima = true;
             continue;
           }
-          if(o=='role'){
-            this.ruleForm.role = obj[o];
-	    this.ro.role = true;
+          if(o=='xingming'){
+            this.ruleForm.xingming = obj[o];
+	    this.ro.xingming = true;
+            continue;
+          }
+          if(o=='xingbie'){
+            this.ruleForm.xingbie = obj[o];
+	    this.ro.xingbie = true;
+            continue;
+          }
+          if(o=='touxiang'){
+            this.ruleForm.touxiang = obj[o];
+	    this.ro.touxiang = true;
+            continue;
+          }
+          if(o=='nianling'){
+            this.ruleForm.nianling = obj[o];
+	    this.ro.nianling = true;
+            continue;
+          }
+          if(o=='banji'){
+            this.ruleForm.banji = obj[o];
+	    this.ro.banji = true;
+            continue;
+          }
+          if(o=='youxiang'){
+            this.ruleForm.youxiang = obj[o];
+	    this.ro.youxiang = true;
+            continue;
+          }
+          if(o=='shouji'){
+            this.ruleForm.shouji = obj[o];
+	    this.ro.shouji = true;
             continue;
           }
         }
       }
+      // 获取用户信息
+      this.$http({
+        url: `${this.$storage.get('sessionTable')}/session`,
+        method: "get"
+      }).then(({ data }) => {
+        if (data && data.code === 0) {
+          var json = data.data;
+        } else {
+          this.$message.error(data.msg);
+        }
+      });
+            this.xingbieOptions = "男,女".split(',')
     },
     // 多级联动参数
     info(id) {
       this.$http({
-        url: `users/info/${id}`,
+        url: `zhiyuanzhe/info/${id}`,
         method: "get"
       }).then(({ data }) => {
         if (data && data.code === 0) {
@@ -222,6 +379,29 @@ export default {
 
     // 提交
     onSubmit() {
+
+      if((this.ruleForm.xuehao.length<8)){
+        this.$message.error(`学号长度不能小于8`);
+        return
+      }
+
+
+
+
+
+
+
+
+
+	if(this.ruleForm.touxiang!=null) {
+		this.ruleForm.touxiang = this.ruleForm.touxiang.replace(new RegExp(this.$base.url,"g"),"");
+	}
+
+
+
+
+
+
 
 
 
@@ -265,26 +445,26 @@ var objcross = this.$storage.getObj('crossObj');
 		 if(crossrefid && crossuserid) {
 			 this.ruleForm.crossuserid = crossuserid;
 			 this.ruleForm.crossrefid = crossrefid;
-			let params = {
-				page: 1,
-				limit: 10,
+			let params = { 
+				page: 1, 
+				limit: 10, 
 				crossuserid:this.ruleForm.crossuserid,
 				crossrefid:this.ruleForm.crossrefid,
-			}
-			this.$http({
-				url: "users/page",
-				method: "get",
-				params: params
-			}).then(({
-				data
-			}) => {
-				if (data && data.code === 0) {
+			} 
+			this.$http({ 
+				url: "zhiyuanzhe/page", 
+				method: "get", 
+				params: params 
+			}).then(({ 
+				data 
+			}) => { 
+				if (data && data.code === 0) { 
 				       if(data.data.total>=crossoptnum) {
 					     this.$message.error(this.$storage.get('tips'));
 					       return false;
 				       } else {
 					 this.$http({
-					   url: `users/${!this.ruleForm.id ? "save" : "update"}`,
+					   url: `zhiyuanzhe/${!this.ruleForm.id ? "save" : "update"}`,
 					   method: "post",
 					   data: this.ruleForm
 					 }).then(({ data }) => {
@@ -296,7 +476,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       onClose: () => {
 						 this.parent.showFlag = true;
 						 this.parent.addOrUpdateFlag = false;
-						 this.parent.usersCrossAddOrUpdateFlag = false;
+						 this.parent.zhiyuanzheCrossAddOrUpdateFlag = false;
 						 this.parent.search();
 						 this.parent.contentStyleChange();
 					       }
@@ -307,12 +487,12 @@ var objcross = this.$storage.getObj('crossObj');
 					 });
 
 				       }
-				} else {
-				}
+				} else { 
+				} 
 			});
 		 } else {
 			 this.$http({
-			   url: `users/${!this.ruleForm.id ? "save" : "update"}`,
+			   url: `zhiyuanzhe/${!this.ruleForm.id ? "save" : "update"}`,
 			   method: "post",
 			   data: this.ruleForm
 			 }).then(({ data }) => {
@@ -324,7 +504,7 @@ var objcross = this.$storage.getObj('crossObj');
 			       onClose: () => {
 				 this.parent.showFlag = true;
 				 this.parent.addOrUpdateFlag = false;
-				 this.parent.usersCrossAddOrUpdateFlag = false;
+				 this.parent.zhiyuanzheCrossAddOrUpdateFlag = false;
 				 this.parent.search();
 				 this.parent.contentStyleChange();
 			       }
@@ -345,8 +525,12 @@ var objcross = this.$storage.getObj('crossObj');
     back() {
       this.parent.showFlag = true;
       this.parent.addOrUpdateFlag = false;
-      this.parent.usersCrossAddOrUpdateFlag = false;
+      this.parent.zhiyuanzheCrossAddOrUpdateFlag = false;
       this.parent.contentStyleChange();
+    },
+    touxiangUploadChange(fileUrls) {
+	this.ruleForm.touxiang = fileUrls;
+	this.addEditUploadStyleChange()
     },
 	addEditStyleChange() {
 	  this.$nextTick(()=>{
@@ -490,7 +674,7 @@ var objcross = this.$storage.getObj('crossObj');
 <style lang="scss">
 .editor{
   height: 500px;
-
+  
   & /deep/ .ql-container {
 	  height: 310px;
   }
