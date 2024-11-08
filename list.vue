@@ -5,9 +5,14 @@
       <el-form :inline="true" :model="searchForm" class="form-content">
         <el-row  :gutter="20" class="slt" :style="{justifyContent:contents.searchBoxPosition=='1'?'flex-start':contents.searchBoxPosition=='2'?'center':'flex-end'}">
                 <el-form-item :label="contents.inputTitle == 1 ? '用户名' : ''">
-                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 1" prefix-icon="el-icon-search" v-model="searchForm.username" placeholder="用户名" clearable></el-input>
-                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 2" suffix-icon="el-icon-search" v-model="searchForm.username" placeholder="用户名" clearable></el-input>
-                  <el-input v-if="contents.inputIcon == 0" v-model="searchForm.username" placeholder="用户名" clearable></el-input>
+                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 1" prefix-icon="el-icon-search" v-model="searchForm.nickname" placeholder="用户名" clearable></el-input>
+                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 2" suffix-icon="el-icon-search" v-model="searchForm.nickname" placeholder="用户名" clearable></el-input>
+                  <el-input v-if="contents.inputIcon == 0" v-model="searchForm.nickname" placeholder="用户名" clearable></el-input>
+                </el-form-item>
+                <el-form-item :label="contents.inputTitle == 1 ? '评论内容' : ''">
+                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 1" prefix-icon="el-icon-search" v-model="searchForm.content" placeholder="评论内容" clearable></el-input>
+                  <el-input v-if="contents.inputIcon == 1 && contents.inputIconPosition == 2" suffix-icon="el-icon-search" v-model="searchForm.content" placeholder="评论内容" clearable></el-input>
+                  <el-input v-if="contents.inputIcon == 0" v-model="searchForm.content" placeholder="评论内容" clearable></el-input>
                 </el-form-item>
           <el-form-item>
             <el-button v-if="contents.searchBtnIcon == 1 && contents.searchBtnIconPosition == 1" icon="el-icon-search" type="success" @click="search()">{{ contents.searchBtnFont == 1?'查询':'' }}</el-button>
@@ -19,36 +24,36 @@
         <el-row class="ad" :style="{justifyContent:contents.btnAdAllBoxPosition=='1'?'flex-start':contents.btnAdAllBoxPosition=='2'?'center':'flex-end'}">
           <el-form-item>
             <el-button
-              v-if="isAuth('users','新增') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 1"
+              v-if="isAuth('discusshuodongxinde','新增') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 1"
               type="success"
               icon="el-icon-plus"
               @click="addOrUpdateHandler()"
             >{{ contents.btnAdAllFont == 1?'新增':'' }}</el-button>
             <el-button
-              v-if="isAuth('users','新增') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 2"
+              v-if="isAuth('discusshuodongxinde','新增') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 2"
               type="success"
               @click="addOrUpdateHandler()"
             >{{ contents.btnAdAllFont == 1?'新增':'' }}<i class="el-icon-plus el-icon--right" /></el-button>
             <el-button
-              v-if="isAuth('users','新增') && contents.btnAdAllIcon == 0"
+              v-if="isAuth('discusshuodongxinde','新增') && contents.btnAdAllIcon == 0"
               type="success"
               @click="addOrUpdateHandler()"
             >{{ contents.btnAdAllFont == 1?'新增':'' }}</el-button>
             <el-button
-              v-if="isAuth('users','删除') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 1 && contents.tableSelection"
+              v-if="isAuth('discusshuodongxinde','删除') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 1 && contents.tableSelection"
               :disabled="dataListSelections.length <= 0"
               type="danger"
               icon="el-icon-delete"
               @click="deleteHandler()"
             >{{ contents.btnAdAllFont == 1?'删除':'' }}</el-button>
             <el-button
-              v-if="isAuth('users','删除') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 2 && contents.tableSelection"
+              v-if="isAuth('discusshuodongxinde','删除') && contents.btnAdAllIcon == 1 && contents.btnAdAllIconPosition == 2 && contents.tableSelection"
               :disabled="dataListSelections.length <= 0"
               type="danger"
               @click="deleteHandler()"
             >{{ contents.btnAdAllFont == 1?'删除':'' }}<i class="el-icon-delete el-icon--right" /></el-button>
             <el-button
-              v-if="isAuth('users','删除') && contents.btnAdAllIcon == 0 && contents.tableSelection"
+              v-if="isAuth('discusshuodongxinde','删除') && contents.btnAdAllIcon == 0 && contents.tableSelection"
               :disabled="dataListSelections.length <= 0"
               type="danger"
               @click="deleteHandler()"
@@ -68,7 +73,6 @@
             :fit="contents.tableFit"
             :stripe="contents.tableStripe"
             :style="{width: '100%',fontSize:contents.tableContentFontSize,color:contents.tableContentFontColor}"
-            v-if="isAuth('users','查看')"
             :data="dataList"
             v-loading="dataListLoading"
             @selection-change="selectionChangeHandler">
@@ -80,46 +84,52 @@
             </el-table-column>
             <el-table-column label="索引" :align="contents.tableAlign"  v-if="contents.tableIndex" type="index" width="50" />
                 <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="username"
+                    prop="nickname"
                    :header-align="contents.tableAlign"
 		    label="用户名">
 		     <template slot-scope="scope">
-                       {{scope.row.username}}
+                       {{scope.row.nickname}}
                      </template>
                 </el-table-column>
                 <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="password"
+                    prop="content"
                    :header-align="contents.tableAlign"
-		    label="密码">
+		    label="评论内容">
 		     <template slot-scope="scope">
-                       {{scope.row.password}}
+                       {{scope.row.content}}
                      </template>
                 </el-table-column>
                 <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign" 
-                    prop="role"
+                    prop="reply"
                    :header-align="contents.tableAlign"
-		    label="角色">
+		    label="回复内容">
 		     <template slot-scope="scope">
-                       {{scope.row.role}}
+                       {{scope.row.reply}}
                      </template>
                 </el-table-column>
             <el-table-column width="300" :align="contents.tableAlign" 
                :header-align="contents.tableAlign"
                 label="操作">
                 <template slot-scope="scope">
-                <el-button v-if="isAuth('users','查看') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="success" icon="el-icon-tickets" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
-                <el-button v-if="isAuth('users','查看') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}<i class="el-icon-tickets el-icon--right" /></el-button>
-                <el-button v-if="isAuth('users','查看') && contents.tableBtnIcon == 0" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
-                <el-button v-if=" isAuth('users','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="primary" icon="el-icon-edit" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
-                <el-button v-if=" isAuth('users','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}<i class="el-icon-edit el-icon--right" /></el-button>
-                <el-button v-if=" isAuth('users','修改') && contents.tableBtnIcon == 0" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
+                <el-button v-if=" contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="success" icon="el-icon-tickets" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
+                <el-button v-if=" contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}<i class="el-icon-tickets el-icon--right" /></el-button>
+                <el-button v-if=" contents.tableBtnIcon == 0" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">{{ contents.tableBtnFont == 1?'详情':'' }}</el-button>
+                <el-button v-if=" isAuth('discusshuodongxinde','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="primary" icon="el-icon-edit" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
+                <el-button v-if=" isAuth('discusshuodongxinde','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}<i class="el-icon-edit el-icon--right" /></el-button>
+                <el-button v-if=" isAuth('discusshuodongxinde','修改') && contents.tableBtnIcon == 0" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
 
 
+                <el-button v-if="isAuth('discusshuodongxinde','查看评论') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="primary" icon="el-icon-edit" size="mini" @click="disscussListHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'查看评论':'' }}</el-button>
+                <el-button v-if="isAuth('discusshuodongxinde','查看评论') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="primary" size="mini" @click="disscussListHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'查看评论':'' }}<i class="el-icon-edit el-icon--right" /></el-button>
+                <el-button v-if="isAuth('discusshuodongxinde','查看评论') && contents.tableBtnIcon == 0" type="primary" size="mini" @click="disscussListHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'查看评论':'' }}</el-button>
 
+                <el-button v-if="contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="primary" icon="el-icon-edit" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'回复':'' }}</el-button>
+                <el-button v-if="contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'回复':'' }}<i class="el-icon-edit el-icon--right" /></el-button>
+                <el-button v-if="contents.tableBtnIcon == 0" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'回复':'' }}</el-button>
 
-                <el-button v-if="isAuth('users','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
-                <el-button v-if="isAuth('users','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}<i class="el-icon-delete el-icon--right" /></el-button>
-                <el-button v-if="isAuth('users','删除') && contents.tableBtnIcon == 0" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
+                <el-button v-if=" contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
+                <el-button v-if=" contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}<i class="el-icon-delete el-icon--right" /></el-button>
+                <el-button v-if=" contents.tableBtnIcon == 0" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -383,12 +393,16 @@ export default {
         page: this.pageIndex,
         limit: this.pageSize,
         sort: 'id',
+	refid : this.$route.query.refid,
       }
-          if(this.searchForm.username!='' && this.searchForm.username!=undefined){
-            params['username'] = '%' + this.searchForm.username + '%'
+          if(this.searchForm.nickname!='' && this.searchForm.nickname!=undefined){
+            params['nickname'] = '%' + this.searchForm.nickname + '%'
+          }
+          if(this.searchForm.content!='' && this.searchForm.content!=undefined){
+            params['content'] = '%' + this.searchForm.content + '%'
           }
       this.$http({
-        url: "users/page",
+        url: "discusshuodongxinde/page",
         method: "get",
         params: params
       }).then(({ data }) => {
@@ -430,6 +444,9 @@ export default {
       });
     },
     // 查看评论
+    disscussListHandler(id,type) {
+	this.$router.push({path:'/discussdiscusshuodongxinde',query:{refid:id}});
+    },
     // 下载
     download(file){
       window.open(`${file}`)
@@ -447,7 +464,7 @@ export default {
         type: "warning"
       }).then(() => {
         this.$http({
-          url: "users/delete",
+          url: "discusshuodongxinde/delete",
           method: "post",
           data: ids
         }).then(({ data }) => {

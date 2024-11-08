@@ -9,126 +9,43 @@
 	  :style="{backgroundColor:addEditForm.addEditBoxColor}"
     >
       <el-row >
-      <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="学号" prop="xuehao">
-          <el-input v-model="ruleForm.xuehao" 
-              placeholder="学号" clearable  :readonly="ro.xuehao"></el-input>
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" label="学号" prop="xuehao">
-              <el-input v-model="ruleForm.xuehao" 
-                placeholder="学号" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="密码" prop="mima">
-          <el-input v-model="ruleForm.mima" 
-              placeholder="密码" clearable  :readonly="ro.mima"></el-input>
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" label="密码" prop="mima">
-              <el-input v-model="ruleForm.mima" 
-                placeholder="密码" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="姓名" prop="xingming">
-          <el-input v-model="ruleForm.xingming" 
-              placeholder="姓名" clearable  :readonly="ro.xingming"></el-input>
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" label="姓名" prop="xingming">
-              <el-input v-model="ruleForm.xingming" 
-                placeholder="姓名" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item class="select" v-if="type!='info'"  label="性别" prop="xingbie">
-          <el-select :disabled="ro.xingbie" v-model="ruleForm.xingbie" placeholder="请选择性别">
-            <el-option
-                v-for="(item,index) in xingbieOptions"
-                v-bind:key="index"
-                :label="item"
-                :value="item">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" label="性别" prop="xingbie">
-	      <el-input v-model="ruleForm.xingbie"
-                placeholder="性别" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="24">  
-        <el-form-item class="upload" v-if="type!='info' && !ro.touxiang" label="头像" prop="touxiang">
-          <file-upload
-          tip="点击上传头像"
-          action="file/upload"
-          :limit="3"
-          :multiple="true"
-          :fileUrls="ruleForm.touxiang?ruleForm.touxiang:''"
-          @change="touxiangUploadChange"
-          ></file-upload>
-        </el-form-item>
-        <div v-else>
-          <el-form-item v-if="ruleForm.touxiang" label="头像" prop="touxiang">
-            <img style="margin-right:20px;" v-bind:key="index" v-for="(item,index) in ruleForm.touxiang.split(',')" :src="$base.url+item" width="100" height="100">
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="年龄" prop="nianling">
-          <el-input v-model="ruleForm.nianling" 
-              placeholder="年龄" clearable  :readonly="ro.nianling"></el-input>
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" label="年龄" prop="nianling">
-              <el-input v-model="ruleForm.nianling" 
-                placeholder="年龄" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="班级" prop="banji">
-          <el-input v-model="ruleForm.banji" 
-              placeholder="班级" clearable  :readonly="ro.banji"></el-input>
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" label="班级" prop="banji">
-              <el-input v-model="ruleForm.banji" 
-                placeholder="班级" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="邮箱" prop="youxiang">
-          <el-input v-model="ruleForm.youxiang" 
-              placeholder="邮箱" clearable  :readonly="ro.youxiang"></el-input>
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" label="邮箱" prop="youxiang">
-              <el-input v-model="ruleForm.youxiang" 
-                placeholder="邮箱" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item class="input" v-if="type!='info'"  label="手机" prop="shouji">
-          <el-input v-model="ruleForm.shouji" 
-              placeholder="手机" clearable  :readonly="ro.shouji"></el-input>
-        </el-form-item>
-        <div v-else>
-          <el-form-item class="input" label="手机" prop="shouji">
-              <el-input v-model="ruleForm.shouji" 
-                placeholder="手机" readonly></el-input>
-          </el-form-item>
-        </div>
-      </el-col>
       </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item class="textarea" v-if="type!='info'" label="评论内容" prop="content">
+                <el-input
+                  style="min-width: 200px; max-width: 600px;"
+                  type="textarea"
+                  :rows="8"
+                  placeholder="评论内容"
+                  v-model="ruleForm.content" readonly>
+                </el-input>
+              </el-form-item>
+              <div v-else>
+                <el-form-item v-if="ruleForm.content" label="评论内容" prop="content">
+                    <span>{{ruleForm.content}}</span>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item class="textarea" v-if="type!='info'" label="回复内容" prop="reply">
+                <el-input
+                  style="min-width: 200px; max-width: 600px;"
+                  type="textarea"
+                  :rows="8"
+                  placeholder="回复内容"
+                  v-model="ruleForm.reply" >
+                </el-input>
+              </el-form-item>
+              <div v-else>
+                <el-form-item v-if="ruleForm.reply" label="回复内容" prop="reply">
+                    <span>{{ruleForm.reply}}</span>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
       <el-form-item class="btn">
         <el-button  v-if="type!='info'" type="primary" class="btn-success" @click="onSubmit">提交</el-button>
         <el-button v-if="type!='info'" class="btn-close" @click="back()">取消</el-button>
@@ -213,60 +130,32 @@ export default {
       id: '',
       type: '',
       ro:{
-	xuehao : false,
-	mima : false,
-	xingming : false,
-	xingbie : false,
-	touxiang : false,
-	nianling : false,
-	banji : false,
-	youxiang : false,
-	shouji : false,
-	sfsh : false,
-	shhf : false,
+	refid : false,
+	userid : false,
+	nickname : false,
+	content : false,
+	reply : false,
       },
       ruleForm: {
-        xuehao: '',
-        mima: '',
-        xingming: '',
-        xingbie: '',
-        touxiang: '',
-        nianling: '',
-        banji: '',
-        youxiang: '',
-        shouji: '',
-        shhf: '',
+        refid: '',
+        userid: '',
+        nickname: '',
+        content: '',
+        reply: '',
       },
-          xingbieOptions: [],
       rules: {
-          xuehao: [
-                { required: true, message: '学号不能为空', trigger: 'blur' },
+          refid: [
+                { required: true, message: '关联表id不能为空', trigger: 'blur' },
           ],
-          mima: [
-                { required: true, message: '密码不能为空', trigger: 'blur' },
+          userid: [
+                { required: true, message: '用户id不能为空', trigger: 'blur' },
           ],
-          xingming: [
-                { required: true, message: '姓名不能为空', trigger: 'blur' },
+          nickname: [
           ],
-          xingbie: [
+          content: [
+                { required: true, message: '评论内容不能为空', trigger: 'blur' },
           ],
-          touxiang: [
-          ],
-          nianling: [
-          ],
-          banji: [
-          ],
-          youxiang: [
-                { required: true, message: '邮箱不能为空', trigger: 'blur' },
-                { validator: validateEmail, trigger: 'blur' },
-          ],
-          shouji: [
-                { required: true, message: '手机不能为空', trigger: 'blur' },
-                { validator: validateMobile, trigger: 'blur' },
-          ],
-          sfsh: [
-          ],
-          shhf: [
+          reply: [
           ],
       }
     };
@@ -300,70 +189,38 @@ export default {
       }else if(this.type=='cross'){
         var obj = this.$storage.getObj('crossObj');
         for (var o in obj){
-          if(o=='xuehao'){
-            this.ruleForm.xuehao = obj[o];
-	    this.ro.xuehao = true;
+          if(o=='refid'){
+            this.ruleForm.refid = obj[o];
+	    this.ro.refid = true;
             continue;
           }
-          if(o=='mima'){
-            this.ruleForm.mima = obj[o];
-	    this.ro.mima = true;
+          if(o=='userid'){
+            this.ruleForm.userid = obj[o];
+	    this.ro.userid = true;
             continue;
           }
-          if(o=='xingming'){
-            this.ruleForm.xingming = obj[o];
-	    this.ro.xingming = true;
+          if(o=='nickname'){
+            this.ruleForm.nickname = obj[o];
+	    this.ro.nickname = true;
             continue;
           }
-          if(o=='xingbie'){
-            this.ruleForm.xingbie = obj[o];
-	    this.ro.xingbie = true;
+          if(o=='content'){
+            this.ruleForm.content = obj[o];
+	    this.ro.content = true;
             continue;
           }
-          if(o=='touxiang'){
-            this.ruleForm.touxiang = obj[o];
-	    this.ro.touxiang = true;
-            continue;
-          }
-          if(o=='nianling'){
-            this.ruleForm.nianling = obj[o];
-	    this.ro.nianling = true;
-            continue;
-          }
-          if(o=='banji'){
-            this.ruleForm.banji = obj[o];
-	    this.ro.banji = true;
-            continue;
-          }
-          if(o=='youxiang'){
-            this.ruleForm.youxiang = obj[o];
-	    this.ro.youxiang = true;
-            continue;
-          }
-          if(o=='shouji'){
-            this.ruleForm.shouji = obj[o];
-	    this.ro.shouji = true;
+          if(o=='reply'){
+            this.ruleForm.reply = obj[o];
+	    this.ro.reply = true;
             continue;
           }
         }
       }
-      // 获取用户信息
-      this.$http({
-        url: `${this.$storage.get('sessionTable')}/session`,
-        method: "get"
-      }).then(({ data }) => {
-        if (data && data.code === 0) {
-          var json = data.data;
-        } else {
-          this.$message.error(data.msg);
-        }
-      });
-            this.xingbieOptions = "男,女".split(',')
     },
     // 多级联动参数
     info(id) {
       this.$http({
-        url: `zhiyuanzhe/info/${id}`,
+        url: `discusshuodongxinde/info/${id}`,
         method: "get"
       }).then(({ data }) => {
         if (data && data.code === 0) {
@@ -379,25 +236,6 @@ export default {
 
     // 提交
     onSubmit() {
-
-      if((this.ruleForm.xuehao.length<8)){
-        this.$message.error(`学号长度不能小于8`);
-        return
-      }
-
-
-
-
-
-
-
-
-
-	if(this.ruleForm.touxiang!=null) {
-		this.ruleForm.touxiang = this.ruleForm.touxiang.replace(new RegExp(this.$base.url,"g"),"");
-	}
-
-
 
 
 
@@ -452,7 +290,7 @@ var objcross = this.$storage.getObj('crossObj');
 				crossrefid:this.ruleForm.crossrefid,
 			} 
 			this.$http({ 
-				url: "zhiyuanzhe/page", 
+				url: "discusshuodongxinde/page", 
 				method: "get", 
 				params: params 
 			}).then(({ 
@@ -464,7 +302,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       return false;
 				       } else {
 					 this.$http({
-					   url: `zhiyuanzhe/${!this.ruleForm.id ? "save" : "update"}`,
+					   url: `discusshuodongxinde/${!this.ruleForm.id ? "save" : "update"}`,
 					   method: "post",
 					   data: this.ruleForm
 					 }).then(({ data }) => {
@@ -476,7 +314,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       onClose: () => {
 						 this.parent.showFlag = true;
 						 this.parent.addOrUpdateFlag = false;
-						 this.parent.zhiyuanzheCrossAddOrUpdateFlag = false;
+						 this.parent.discusshuodongxindeCrossAddOrUpdateFlag = false;
 						 this.parent.search();
 						 this.parent.contentStyleChange();
 					       }
@@ -492,7 +330,7 @@ var objcross = this.$storage.getObj('crossObj');
 			});
 		 } else {
 			 this.$http({
-			   url: `zhiyuanzhe/${!this.ruleForm.id ? "save" : "update"}`,
+			   url: `discusshuodongxinde/${!this.ruleForm.id ? "save" : "update"}`,
 			   method: "post",
 			   data: this.ruleForm
 			 }).then(({ data }) => {
@@ -504,7 +342,7 @@ var objcross = this.$storage.getObj('crossObj');
 			       onClose: () => {
 				 this.parent.showFlag = true;
 				 this.parent.addOrUpdateFlag = false;
-				 this.parent.zhiyuanzheCrossAddOrUpdateFlag = false;
+				 this.parent.discusshuodongxindeCrossAddOrUpdateFlag = false;
 				 this.parent.search();
 				 this.parent.contentStyleChange();
 			       }
@@ -525,12 +363,8 @@ var objcross = this.$storage.getObj('crossObj');
     back() {
       this.parent.showFlag = true;
       this.parent.addOrUpdateFlag = false;
-      this.parent.zhiyuanzheCrossAddOrUpdateFlag = false;
+      this.parent.discusshuodongxindeCrossAddOrUpdateFlag = false;
       this.parent.contentStyleChange();
-    },
-    touxiangUploadChange(fileUrls) {
-	this.ruleForm.touxiang = fileUrls;
-	this.addEditUploadStyleChange()
     },
 	addEditStyleChange() {
 	  this.$nextTick(()=>{
