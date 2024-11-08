@@ -9,39 +9,84 @@
 	  :style="{backgroundColor:addEditForm.addEditBoxColor}"
     >
       <el-row >
+      <el-col :span="12">
+        <el-form-item class="input" v-if="type!='info'"  label="活动名称" prop="huodongmingcheng">
+          <el-input v-model="ruleForm.huodongmingcheng" 
+              placeholder="活动名称" clearable  :readonly="ro.huodongmingcheng"></el-input>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" label="活动名称" prop="huodongmingcheng">
+              <el-input v-model="ruleForm.huodongmingcheng" 
+                placeholder="活动名称" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item class="select" v-if="type!='info'"  label="活动类型" prop="huodongleixing">
+          <el-select :disabled="ro.huodongleixing" v-model="ruleForm.huodongleixing" placeholder="请选择活动类型">
+            <el-option
+                v-for="(item,index) in huodongleixingOptions"
+                v-bind:key="index"
+                :label="item"
+                :value="item">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" label="活动类型" prop="huodongleixing">
+	      <el-input v-model="ruleForm.huodongleixing"
+                placeholder="活动类型" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="24">  
+        <el-form-item class="upload" v-if="type!='info' && !ro.tupian" label="图片" prop="tupian">
+          <file-upload
+          tip="点击上传图片"
+          action="file/upload"
+          :limit="3"
+          :multiple="true"
+          :fileUrls="ruleForm.tupian?ruleForm.tupian:''"
+          @change="tupianUploadChange"
+          ></file-upload>
+        </el-form-item>
+        <div v-else>
+          <el-form-item v-if="ruleForm.tupian" label="图片" prop="tupian">
+            <img style="margin-right:20px;" v-bind:key="index" v-for="(item,index) in ruleForm.tupian.split(',')" :src="$base.url+item" width="100" height="100">
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item class="date" v-if="type!='info'" label="发布时间" prop="fabushijian">
+            <el-date-picker
+                value-format="yyyy-MM-dd HH:mm:ss"
+                v-model="ruleForm.fabushijian" 
+                type="datetime"
+                :readonly="ro.fabushijian"
+                placeholder="发布时间">
+            </el-date-picker>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" v-if="ruleForm.fabushijian" label="发布时间" prop="fabushijian">
+              <el-input v-model="ruleForm.fabushijian" 
+                placeholder="发布时间" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
       </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item class="textarea" v-if="type!='info'" label="评论内容" prop="content">
-                <el-input
-                  style="min-width: 200px; max-width: 600px;"
-                  type="textarea"
-                  :rows="8"
-                  placeholder="评论内容"
-                  v-model="ruleForm.content" readonly>
-                </el-input>
+              <el-form-item v-if="type!='info'"  label="心得分享" prop="xindefenxiang">
+                <editor 
+                    style="min-width: 200px; max-width: 600px;"
+                    v-model="ruleForm.xindefenxiang" 
+                    class="editor" 
+                    action="file/upload">
+                </editor>
               </el-form-item>
               <div v-else>
-                <el-form-item v-if="ruleForm.content" label="评论内容" prop="content">
-                    <span>{{ruleForm.content}}</span>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item class="textarea" v-if="type!='info'" label="回复内容" prop="reply">
-                <el-input
-                  style="min-width: 200px; max-width: 600px;"
-                  type="textarea"
-                  :rows="8"
-                  placeholder="回复内容"
-                  v-model="ruleForm.reply" >
-                </el-input>
-              </el-form-item>
-              <div v-else>
-                <el-form-item v-if="ruleForm.reply" label="回复内容" prop="reply">
-                    <span>{{ruleForm.reply}}</span>
+                <el-form-item v-if="ruleForm.xindefenxiang" label="心得分享" prop="xindefenxiang">
+                    <span v-html="ruleForm.xindefenxiang"></span>
                 </el-form-item>
               </div>
             </el-col>
@@ -130,32 +175,36 @@ export default {
       id: '',
       type: '',
       ro:{
-	refid : false,
+	huodongmingcheng : false,
+	huodongleixing : false,
+	tupian : false,
+	xindefenxiang : false,
+	fabushijian : false,
 	userid : false,
-	nickname : false,
-	content : false,
-	reply : false,
       },
       ruleForm: {
-        refid: '',
+        huodongmingcheng: '',
+        huodongleixing: '',
+        tupian: '',
+        xindefenxiang: '',
+        fabushijian: '',
         userid: '',
-        nickname: '',
-        content: '',
-        reply: '',
       },
+          huodongleixingOptions: [],
       rules: {
-          refid: [
-                { required: true, message: '关联表id不能为空', trigger: 'blur' },
+          huodongmingcheng: [
+                { required: true, message: '活动名称不能为空', trigger: 'blur' },
+          ],
+          huodongleixing: [
+                { required: true, message: '活动类型不能为空', trigger: 'blur' },
+          ],
+          tupian: [
+          ],
+          xindefenxiang: [
+          ],
+          fabushijian: [
           ],
           userid: [
-                { required: true, message: '用户id不能为空', trigger: 'blur' },
-          ],
-          nickname: [
-          ],
-          content: [
-                { required: true, message: '评论内容不能为空', trigger: 'blur' },
-          ],
-          reply: [
           ],
       }
     };
@@ -167,6 +216,8 @@ export default {
 
   },
   created() {
+	this.ruleForm.fabushijian = this.getCurDateTime()
+
 	this.addEditStyleChange()
 	this.addEditUploadStyleChange()
   },
@@ -189,9 +240,29 @@ export default {
       }else if(this.type=='cross'){
         var obj = this.$storage.getObj('crossObj');
         for (var o in obj){
-          if(o=='refid'){
-            this.ruleForm.refid = obj[o];
-	    this.ro.refid = true;
+          if(o=='huodongmingcheng'){
+            this.ruleForm.huodongmingcheng = obj[o];
+	    this.ro.huodongmingcheng = true;
+            continue;
+          }
+          if(o=='huodongleixing'){
+            this.ruleForm.huodongleixing = obj[o];
+	    this.ro.huodongleixing = true;
+            continue;
+          }
+          if(o=='tupian'){
+            this.ruleForm.tupian = obj[o];
+	    this.ro.tupian = true;
+            continue;
+          }
+          if(o=='xindefenxiang'){
+            this.ruleForm.xindefenxiang = obj[o];
+	    this.ro.xindefenxiang = true;
+            continue;
+          }
+          if(o=='fabushijian'){
+            this.ruleForm.fabushijian = obj[o];
+	    this.ro.fabushijian = true;
             continue;
           }
           if(o=='userid'){
@@ -199,34 +270,45 @@ export default {
 	    this.ro.userid = true;
             continue;
           }
-          if(o=='nickname'){
-            this.ruleForm.nickname = obj[o];
-	    this.ro.nickname = true;
-            continue;
-          }
-          if(o=='content'){
-            this.ruleForm.content = obj[o];
-	    this.ro.content = true;
-            continue;
-          }
-          if(o=='reply'){
-            this.ruleForm.reply = obj[o];
-	    this.ro.reply = true;
-            continue;
-          }
         }
       }
+      // 获取用户信息
+      this.$http({
+        url: `${this.$storage.get('sessionTable')}/session`,
+        method: "get"
+      }).then(({ data }) => {
+        if (data && data.code === 0) {
+          var json = data.data;
+		if(this.$storage.get("role")!="管理员") {
+			this.ro.fabushijian = true;
+		}
+        } else {
+          this.$message.error(data.msg);
+        }
+      });
+            this.$http({
+              url: `option/huodongleixing/huodongleixing`,
+              method: "get"
+            }).then(({ data }) => {
+              if (data && data.code === 0) {
+                this.huodongleixingOptions = data.data;
+              } else {
+                this.$message.error(data.msg);
+              }
+            });
+         
     },
     // 多级联动参数
     info(id) {
       this.$http({
-        url: `discusshuodongxinde/info/${id}`,
+        url: `huodongxinde/info/${id}`,
         method: "get"
       }).then(({ data }) => {
         if (data && data.code === 0) {
         this.ruleForm = data.data;
 	//解决前台上传图片后台不显示的问题
 	let reg=new RegExp('../../../upload','g')//g代表全部
+	this.ruleForm.xindefenxiang = this.ruleForm.xindefenxiang.replace(reg,'../../../springbootpt9c5/upload');
         } else {
           this.$message.error(data.msg);
         }
@@ -240,6 +322,11 @@ export default {
 
 
 
+
+
+	if(this.ruleForm.tupian!=null) {
+		this.ruleForm.tupian = this.ruleForm.tupian.replace(new RegExp(this.$base.url,"g"),"");
+	}
 
 
 
@@ -290,7 +377,7 @@ var objcross = this.$storage.getObj('crossObj');
 				crossrefid:this.ruleForm.crossrefid,
 			} 
 			this.$http({ 
-				url: "discusshuodongxinde/page", 
+				url: "huodongxinde/page", 
 				method: "get", 
 				params: params 
 			}).then(({ 
@@ -302,7 +389,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       return false;
 				       } else {
 					 this.$http({
-					   url: `discusshuodongxinde/${!this.ruleForm.id ? "save" : "update"}`,
+					   url: `huodongxinde/${!this.ruleForm.id ? "save" : "update"}`,
 					   method: "post",
 					   data: this.ruleForm
 					 }).then(({ data }) => {
@@ -314,7 +401,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       onClose: () => {
 						 this.parent.showFlag = true;
 						 this.parent.addOrUpdateFlag = false;
-						 this.parent.discusshuodongxindeCrossAddOrUpdateFlag = false;
+						 this.parent.huodongxindeCrossAddOrUpdateFlag = false;
 						 this.parent.search();
 						 this.parent.contentStyleChange();
 					       }
@@ -330,7 +417,7 @@ var objcross = this.$storage.getObj('crossObj');
 			});
 		 } else {
 			 this.$http({
-			   url: `discusshuodongxinde/${!this.ruleForm.id ? "save" : "update"}`,
+			   url: `huodongxinde/${!this.ruleForm.id ? "save" : "update"}`,
 			   method: "post",
 			   data: this.ruleForm
 			 }).then(({ data }) => {
@@ -342,7 +429,7 @@ var objcross = this.$storage.getObj('crossObj');
 			       onClose: () => {
 				 this.parent.showFlag = true;
 				 this.parent.addOrUpdateFlag = false;
-				 this.parent.discusshuodongxindeCrossAddOrUpdateFlag = false;
+				 this.parent.huodongxindeCrossAddOrUpdateFlag = false;
 				 this.parent.search();
 				 this.parent.contentStyleChange();
 			       }
@@ -363,8 +450,12 @@ var objcross = this.$storage.getObj('crossObj');
     back() {
       this.parent.showFlag = true;
       this.parent.addOrUpdateFlag = false;
-      this.parent.discusshuodongxindeCrossAddOrUpdateFlag = false;
+      this.parent.huodongxindeCrossAddOrUpdateFlag = false;
       this.parent.contentStyleChange();
+    },
+    tupianUploadChange(fileUrls) {
+	this.ruleForm.tupian = fileUrls;
+	this.addEditUploadStyleChange()
     },
 	addEditStyleChange() {
 	  this.$nextTick(()=>{
