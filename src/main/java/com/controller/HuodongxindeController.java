@@ -55,7 +55,8 @@ public class HuodongxindeController {
     @Autowired
     private StoreupService storeupService;
 
-    
+
+
 
 
     /**

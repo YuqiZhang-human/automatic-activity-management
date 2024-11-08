@@ -44,6 +44,7 @@ public class FileController{
     private ConfigService configService;
 	/**
 	 * 上传文件
+	 *
 	 */
 	@RequestMapping("/upload")
 	public R upload(@RequestParam("file") MultipartFile file,String type) throws Exception {

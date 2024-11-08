@@ -46,7 +46,9 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/storeup")
-public class StoreupController {
+public class
+
+StoreupController {
     @Autowired
     private StoreupService storeupService;
 

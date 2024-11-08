@@ -17,8 +17,9 @@ import com.entity.view.DiscusshuodongxindeView;
  * 
  * @author 
  * @email 
- * @date 2022-05-06 08:33:49
+ * @date 2024-11-08
  */
+
 public interface DiscusshuodongxindeDao extends BaseMapper<DiscusshuodongxindeEntity> {
 	
 	List<DiscusshuodongxindeVO> selectListVO(@Param("ew") Wrapper<DiscusshuodongxindeEntity> wrapper);

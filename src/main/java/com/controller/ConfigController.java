@@ -35,6 +35,7 @@ public class ConfigController{
 	/**
      * 列表
      */
+
     @RequestMapping("/page")
     public R page(@RequestParam Map<String, Object> params,ConfigEntity config){
         EntityWrapper<ConfigEntity> ew = new EntityWrapper<ConfigEntity>();

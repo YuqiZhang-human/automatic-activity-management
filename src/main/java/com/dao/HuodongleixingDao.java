@@ -16,8 +16,8 @@ import com.entity.view.HuodongleixingView;
  * 活动类型
  * 
  * @author 
- * @email 
- * @date 2022-05-06 08:33:49
+ * @email
+ * @date 2024-11-08
  */
 public interface HuodongleixingDao extends BaseMapper<HuodongleixingEntity> {
 	

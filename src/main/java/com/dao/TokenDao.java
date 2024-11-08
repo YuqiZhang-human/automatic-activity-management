@@ -12,6 +12,7 @@ import com.entity.TokenEntity;
 
 /**
  * token
+ * @date 2024-11-08
  */
 public interface TokenDao extends BaseMapper<TokenEntity> {
 	

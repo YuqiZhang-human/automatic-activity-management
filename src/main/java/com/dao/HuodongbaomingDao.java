@@ -17,7 +17,7 @@ import com.entity.view.HuodongbaomingView;
  * 
  * @author 
  * @email 
- * @date 2022-05-06 08:33:49
+ * @date 2024-11-08
  */
 public interface HuodongbaomingDao extends BaseMapper<HuodongbaomingEntity> {
 	

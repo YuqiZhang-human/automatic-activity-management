@@ -12,6 +12,7 @@ import com.entity.UserEntity;
 
 /**
  * 用户
+ * @date 2024-11-08
  */
 public interface UserDao extends BaseMapper<UserEntity> {
 	

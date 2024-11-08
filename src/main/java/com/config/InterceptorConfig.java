@@ -20,6 +20,8 @@ public class InterceptorConfig extends WebMvcConfigurationSupport{
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getAuthorizationInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**");
         super.addInterceptors(registry);
+
+
 	}
 	
 	/**
