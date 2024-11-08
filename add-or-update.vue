@@ -57,36 +57,62 @@
         </div>
       </el-col>
       <el-col :span="12">
-        <el-form-item class="date" v-if="type!='info'" label="发布时间" prop="fabushijian">
+        <el-form-item class="date" v-if="type!='info'" label="活动时间" prop="huodongshijian">
             <el-date-picker
-                value-format="yyyy-MM-dd HH:mm:ss"
-                v-model="ruleForm.fabushijian" 
-                type="datetime"
-                :readonly="ro.fabushijian"
-                placeholder="发布时间">
-            </el-date-picker>
+                format="yyyy 年 MM 月 dd 日"
+                value-format="yyyy-MM-dd"
+                v-model="ruleForm.huodongshijian" 
+                type="date"
+                :readonly="ro.huodongshijian"
+                placeholder="活动时间">
+            </el-date-picker> 
         </el-form-item>
         <div v-else>
-          <el-form-item class="input" v-if="ruleForm.fabushijian" label="发布时间" prop="fabushijian">
-              <el-input v-model="ruleForm.fabushijian" 
-                placeholder="发布时间" readonly></el-input>
+          <el-form-item class="input" v-if="ruleForm.huodongshijian" label="活动时间" prop="huodongshijian">
+              <el-input v-model="ruleForm.huodongshijian" 
+                placeholder="活动时间" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item class="input" v-if="type!='info'"  label="人数" prop="renshu">
+          <el-input v-model="ruleForm.renshu" 
+              placeholder="人数" clearable  :readonly="ro.renshu"></el-input>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" label="人数" prop="renshu">
+              <el-input v-model="ruleForm.renshu" 
+                placeholder="人数" readonly></el-input>
+          </el-form-item>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item class="input" v-if="type!='info'"  label="活动场地" prop="huodongchangdi">
+          <el-input v-model="ruleForm.huodongchangdi" 
+              placeholder="活动场地" clearable  :readonly="ro.huodongchangdi"></el-input>
+        </el-form-item>
+        <div v-else>
+          <el-form-item class="input" label="活动场地" prop="huodongchangdi">
+              <el-input v-model="ruleForm.huodongchangdi" 
+                placeholder="活动场地" readonly></el-input>
           </el-form-item>
         </div>
       </el-col>
       </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item v-if="type!='info'"  label="心得分享" prop="xindefenxiang">
-                <editor 
-                    style="min-width: 200px; max-width: 600px;"
-                    v-model="ruleForm.xindefenxiang" 
-                    class="editor" 
-                    action="file/upload">
-                </editor>
+              <el-form-item class="textarea" v-if="type!='info'" label="活动介绍" prop="huodongjieshao">
+                <el-input
+                  style="min-width: 200px; max-width: 600px;"
+                  type="textarea"
+                  :rows="8"
+                  placeholder="活动介绍"
+                  v-model="ruleForm.huodongjieshao" >
+                </el-input>
               </el-form-item>
               <div v-else>
-                <el-form-item v-if="ruleForm.xindefenxiang" label="心得分享" prop="xindefenxiang">
-                    <span v-html="ruleForm.xindefenxiang"></span>
+                <el-form-item v-if="ruleForm.huodongjieshao" label="活动介绍" prop="huodongjieshao">
+                    <span>{{ruleForm.huodongjieshao}}</span>
                 </el-form-item>
               </div>
             </el-col>
@@ -178,17 +204,22 @@ export default {
 	huodongmingcheng : false,
 	huodongleixing : false,
 	tupian : false,
-	xindefenxiang : false,
-	fabushijian : false,
-	userid : false,
+	huodongshijian : false,
+	renshu : false,
+	huodongchangdi : false,
+	huodongjieshao : false,
+	sfsh : false,
+	shhf : false,
       },
       ruleForm: {
         huodongmingcheng: '',
         huodongleixing: '',
         tupian: '',
-        xindefenxiang: '',
-        fabushijian: '',
-        userid: '',
+        huodongshijian: '',
+        renshu: '',
+        huodongchangdi: '',
+        huodongjieshao: '',
+        shhf: '',
       },
           huodongleixingOptions: [],
       rules: {
@@ -200,11 +231,18 @@ export default {
           ],
           tupian: [
           ],
-          xindefenxiang: [
+          huodongshijian: [
           ],
-          fabushijian: [
+          renshu: [
+                { validator: validateIntNumber, trigger: 'blur' },
           ],
-          userid: [
+          huodongchangdi: [
+          ],
+          huodongjieshao: [
+          ],
+          sfsh: [
+          ],
+          shhf: [
           ],
       }
     };
@@ -216,8 +254,6 @@ export default {
 
   },
   created() {
-	this.ruleForm.fabushijian = this.getCurDateTime()
-
 	this.addEditStyleChange()
 	this.addEditUploadStyleChange()
   },
@@ -255,19 +291,24 @@ export default {
 	    this.ro.tupian = true;
             continue;
           }
-          if(o=='xindefenxiang'){
-            this.ruleForm.xindefenxiang = obj[o];
-	    this.ro.xindefenxiang = true;
+          if(o=='huodongshijian'){
+            this.ruleForm.huodongshijian = obj[o];
+	    this.ro.huodongshijian = true;
             continue;
           }
-          if(o=='fabushijian'){
-            this.ruleForm.fabushijian = obj[o];
-	    this.ro.fabushijian = true;
+          if(o=='renshu'){
+            this.ruleForm.renshu = obj[o];
+	    this.ro.renshu = true;
             continue;
           }
-          if(o=='userid'){
-            this.ruleForm.userid = obj[o];
-	    this.ro.userid = true;
+          if(o=='huodongchangdi'){
+            this.ruleForm.huodongchangdi = obj[o];
+	    this.ro.huodongchangdi = true;
+            continue;
+          }
+          if(o=='huodongjieshao'){
+            this.ruleForm.huodongjieshao = obj[o];
+	    this.ro.huodongjieshao = true;
             continue;
           }
         }
@@ -279,9 +320,6 @@ export default {
       }).then(({ data }) => {
         if (data && data.code === 0) {
           var json = data.data;
-		if(this.$storage.get("role")!="管理员") {
-			this.ro.fabushijian = true;
-		}
         } else {
           this.$message.error(data.msg);
         }
@@ -301,14 +339,13 @@ export default {
     // 多级联动参数
     info(id) {
       this.$http({
-        url: `huodongxinde/info/${id}`,
+        url: `huodongxinxi/info/${id}`,
         method: "get"
       }).then(({ data }) => {
         if (data && data.code === 0) {
         this.ruleForm = data.data;
 	//解决前台上传图片后台不显示的问题
 	let reg=new RegExp('../../../upload','g')//g代表全部
-	this.ruleForm.xindefenxiang = this.ruleForm.xindefenxiang.replace(reg,'../../../springbootpt9c5/upload');
         } else {
           this.$message.error(data.msg);
         }
@@ -327,6 +364,12 @@ export default {
 	if(this.ruleForm.tupian!=null) {
 		this.ruleForm.tupian = this.ruleForm.tupian.replace(new RegExp(this.$base.url,"g"),"");
 	}
+
+
+
+
+
+
 
 
 
@@ -377,7 +420,7 @@ var objcross = this.$storage.getObj('crossObj');
 				crossrefid:this.ruleForm.crossrefid,
 			} 
 			this.$http({ 
-				url: "huodongxinde/page", 
+				url: "huodongxinxi/page", 
 				method: "get", 
 				params: params 
 			}).then(({ 
@@ -389,7 +432,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       return false;
 				       } else {
 					 this.$http({
-					   url: `huodongxinde/${!this.ruleForm.id ? "save" : "update"}`,
+					   url: `huodongxinxi/${!this.ruleForm.id ? "save" : "update"}`,
 					   method: "post",
 					   data: this.ruleForm
 					 }).then(({ data }) => {
@@ -401,7 +444,7 @@ var objcross = this.$storage.getObj('crossObj');
 					       onClose: () => {
 						 this.parent.showFlag = true;
 						 this.parent.addOrUpdateFlag = false;
-						 this.parent.huodongxindeCrossAddOrUpdateFlag = false;
+						 this.parent.huodongxinxiCrossAddOrUpdateFlag = false;
 						 this.parent.search();
 						 this.parent.contentStyleChange();
 					       }
@@ -417,7 +460,7 @@ var objcross = this.$storage.getObj('crossObj');
 			});
 		 } else {
 			 this.$http({
-			   url: `huodongxinde/${!this.ruleForm.id ? "save" : "update"}`,
+			   url: `huodongxinxi/${!this.ruleForm.id ? "save" : "update"}`,
 			   method: "post",
 			   data: this.ruleForm
 			 }).then(({ data }) => {
@@ -429,7 +472,7 @@ var objcross = this.$storage.getObj('crossObj');
 			       onClose: () => {
 				 this.parent.showFlag = true;
 				 this.parent.addOrUpdateFlag = false;
-				 this.parent.huodongxindeCrossAddOrUpdateFlag = false;
+				 this.parent.huodongxinxiCrossAddOrUpdateFlag = false;
 				 this.parent.search();
 				 this.parent.contentStyleChange();
 			       }
@@ -450,7 +493,7 @@ var objcross = this.$storage.getObj('crossObj');
     back() {
       this.parent.showFlag = true;
       this.parent.addOrUpdateFlag = false;
-      this.parent.huodongxindeCrossAddOrUpdateFlag = false;
+      this.parent.huodongxinxiCrossAddOrUpdateFlag = false;
       this.parent.contentStyleChange();
     },
     tupianUploadChange(fileUrls) {
